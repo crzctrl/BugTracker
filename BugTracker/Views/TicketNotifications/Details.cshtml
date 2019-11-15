@@ -1,0 +1,50 @@
+﻿@model BugTracker.Models.TicketNotification
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TicketNotification</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Recipient.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Recipient.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ticket.SubmitterId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ticket.SubmitterId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NotificationBody)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NotificationBody)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isRead)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isRead)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

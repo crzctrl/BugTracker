@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "ManageUsers";
+}
+
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href=@Url.Action("Dashboard", "Home")>
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li><a href="@Url.Action("Index", "Projects")">Projects</a></li>
+        <li class="active">Manage Users</li>
+    </ol>
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        @Html.AntiForgeryToken()
+        @Html.Hidden("ProjectId", (int)ViewBag.ProjectId)
+
+        @if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
+        {
+            <div class="col-md-4">
+                @*<div class="checkbox">
+                    <label>                    
+                        @Html.CheckBox("AdminId") Assign  Thyself
+                    </label>
+                </div>*@
+
+                <div class="row">
+                    <h3>Admin</h3>
+                    <hr />
+                </div>
+                <div class="row">
+                    @Html.DropDownList("AdminId", null, "-- Select --", new { @class = "form-control" })
+                </div>
+
+                <div class="row">
+                    <h3>Project Manager</h3>
+                    <hr />
+                </div>
+                <div class="row">
+                    @Html.DropDownList("ProjectManagerId", null, "-- Select --", new { @class = "form-control" })
+                </div>
+            </div>
+        }
+        <div class="col-md-4">
+            <div class="row">
+                <h3>Developers</h3>
+                <hr />
+            </div>
+            <div class="row">
+                @Html.ListBox("Developers", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <h3>Submitters</h3>
+                <hr/>
+            </div>
+            <div class="row">
+                @Html.ListBox("Submitters", null, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Assign</button>
+        </div>
+    </div>
+}

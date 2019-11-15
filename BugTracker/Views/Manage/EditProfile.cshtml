@@ -1,0 +1,98 @@
+﻿@using BugTracker.Models
+@using Microsoft.AspNet.Identity
+
+@model BugTracker.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Edit Profile";
+    var db = new ApplicationDbContext();
+    var user = db.Users.Find(User.Identity.GetUserId());
+}
+
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href=@Url.Action("Dashboard", "Home")>
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li>
+            <a href=@Url.Action("Index")>Manage</a>
+        </li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <h1 class="page-header">@ViewBag.Title</h1>
+        <div class="panel panel-primary" id="raise">
+            <div class="panel-heading">Edit your profile form</div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    @using (Html.BeginForm("EditProfile", "Manage", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-offset-1 col-md-10 col-md-offset-1">
+                                    <label>First Name</label>
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = user.FirstName })
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-offset-1 col-md-10 col-md-offset-1">
+                                    <label>Last Name</label>
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = user.LastName })
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-offset-1 col-md-10 col-md-offset-1">
+                                    <label>Display Name</label>
+                                    @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", placeholder = user.DisplayName })
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-offset-1 col-md-10 col-md-offset-1">
+                                    <label>Email</label>
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = user.Email })
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-offset-1 col-md-10 col-md-offset-1">
+                                    <label>Avatar</label>
+                                    @Html.TextBox("Avatar", null, new { @type = "file"})
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+                                    <button type="submit" class="btn btn-primary bigbtn">Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
