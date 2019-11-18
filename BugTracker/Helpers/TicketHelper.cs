@@ -62,7 +62,8 @@ namespace BugTracker.Helpers
                     break;
                 case "Project_Manager":
                 case "DemoProject_Manager":
-                    myComments.AddRange(db.TicketComments.Where(t => t.UserId == userId));
+                    //myComments.AddRange(db.TicketComments.Where(t => t.UserId == userId));
+                    myComments.AddRange(user.Projects.SelectMany(p => p.Tickets).SelectMany(t => t.TicketComments));
                     break;
                 case "Developer":
                 case "DemoDeveloper":
@@ -76,5 +77,66 @@ namespace BugTracker.Helpers
 
             return myComments;
         }
+
+        public List<TicketAttachment> ListMyAttachments()
+        {
+            var myAttach = new List<TicketAttachment>();
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            var myRole = rHelp.ListUserRoles(userId).FirstOrDefault();
+
+            switch (myRole)
+            {
+                case "Admin":
+                case "DemoAdmin":
+                    myAttach.AddRange(db.TicketAttachments);
+                    break;
+                case "Project_Manager":
+                case "DemoProject_Manager":
+                    //myAttach.AddRange(db.TicketAttachments.Where(t => t.UserId == userId));
+                    myAttach.AddRange(user.Projects.SelectMany(p => p.Tickets).SelectMany(p => p.TicketAttachments));
+                    break;
+                case "Developer":
+                case "DemoDeveloper":
+                    myAttach.AddRange(db.TicketAttachments.Where(t => t.UserId == userId));
+                    break;
+                case "Submitter":
+                case "DemoSubmitter":
+                    myAttach.AddRange(db.TicketAttachments.Where(t => t.UserId == userId));
+                    break;
+            }
+
+            return myAttach;
+        }
+
+        //public List<TicketHistory> ListMyHistory()
+        //{
+        //    var myHist = new List<TicketHistory>();
+        //    var userId = HttpContext.Current.User.Identity.GetUserId();
+        //    var user = db.Users.Find(userId);
+        //    var myRole = rHelp.ListUserRoles(userId).FirstOrDefault();
+
+        //    switch (myRole)
+        //    {
+        //        case "Admin":
+        //        case "DemoAdmin":
+        //            myHist.AddRange(db.TicketHistories);
+        //            break;
+        //        case "Project_Manager":
+        //        case "DemoProject_Manager":
+        //            myHist.AddRange(db.TicketHistories.Where(t => t.UserId == userId));
+        //            break;
+        //        case "Developer":
+        //        case "DemoDeveloper":
+        //            myHist.AddRange(db.TicketHistories.Where(t => t.UserId == userId));
+        //            break;
+        //        case "Submitter":
+        //        case "DemoSubmitter":
+        //            myHist.AddRange(db.TicketHistories.Where(t => t.UserId == userId));
+        //            break;
+        //    }
+
+        //    return myHist;
+        //}
     }
 }

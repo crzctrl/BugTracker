@@ -18,39 +18,42 @@ namespace BugTracker.Controllers
     public class TicketAttachmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private TicketHelper tHelp = new TicketHelper();
+        private NotificationHelper nHelp = new NotificationHelper();
 
         // GET: TicketAttachments
         public ActionResult Index()
         {
-            var ticketAttachments = db.TicketAttachments.Include(t => t.Ticket).Include(t => t.User);
-            return View(ticketAttachments.ToList());
+            //var ticketAttachments = db.TicketAttachments.Include(t => t.Ticket).Include(t => t.User);
+            //return View(ticketAttachments.ToList());
+            return View(tHelp.ListMyAttachments());
         }
 
         // GET: TicketAttachments/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);
-            if (ticketAttachment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketAttachment);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);
+        //    if (ticketAttachment == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketAttachment);
+        //}
 
         // GET: TicketAttachments/Create
-        public ActionResult Create(int id)
-        {
-            var attachment = new TicketAttachment
-            {
-                TicketId = id
-            };
+        //public ActionResult Create(int id)
+        //{
+        //    var attachment = new TicketAttachment
+        //    {
+        //        TicketId = id
+        //    };
             
-            return View(attachment);
-        }
+        //    return View(attachment);
+        //}
 
         // POST: TicketAttachments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -73,6 +76,7 @@ namespace BugTracker.Controllers
                     ticketAttachment.Created = DateTime.Now;
                     ticketAttachment.UserId = User.Identity.GetUserId();
                     ticketAttachment.Description = aDescription;
+                    nHelp.AddAttachmentNotification(ticketAttachment);
                     db.TicketAttachments.Add(ticketAttachment);
                     db.SaveChanges();
 
@@ -84,21 +88,21 @@ namespace BugTracker.Controllers
         }
 
         // GET: TicketAttachments/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);
-            if (ticketAttachment == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketAttachment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
-            return View(ticketAttachment);
-        }
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);
+        //    if (ticketAttachment == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketAttachment.TicketId);
+        //    ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
+        //    return View(ticketAttachment);
+        //}
 
         // POST: TicketAttachments/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

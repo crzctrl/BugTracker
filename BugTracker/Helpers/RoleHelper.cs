@@ -72,5 +72,10 @@ namespace BugTracker.Helpers
 
             return resultList;
         }
+
+        //public bool isDemoUser(string userId)
+        //{
+
+        //}
     }
 }

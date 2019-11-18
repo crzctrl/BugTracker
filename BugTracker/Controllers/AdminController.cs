@@ -17,11 +17,11 @@ namespace BugTracker.Controllers
         private RoleHelper roleHelper = new RoleHelper();
         private ProjectsHelper projHelper = new ProjectsHelper();
         
-        // GET: Admin
-        [Authorize(Roles = "Admin")]
+        // GET:
+        [Authorize(Roles = "Admin, DemoAdmin")]
         public ActionResult ManageRoles()
         {
-            ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "Email");
+            ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "FullName");
             ViewBag.Role = new SelectList(db.Roles, "Name", "Name");
             var users = new List<ManageRolesViewModel>();
             foreach(var user in db.Users.ToList())
@@ -35,28 +35,31 @@ namespace BugTracker.Controllers
             return View(users);
         }
 
-        // POST: Admin
+        // POST:
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Manageroles(List<string> userIds, string role)
         {
-            foreach(var userId in userIds)
-            {
-                var userRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
-                if(userRole != null)
-                {
-                    roleHelper.RemoveUserFromRole(userId, userRole);
-                }
-            }
-
-            if(!string.IsNullOrEmpty(role))
+            if (userIds != null)
             {
                 foreach (var userId in userIds)
                 {
-                    roleHelper.AddUserToRole(userId, role);
+                    var userRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
+                    if (userRole != null)
+                    {
+                        roleHelper.RemoveUserFromRole(userId, userRole);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(role))
+                {
+                    foreach (var userId in userIds)
+                    {
+                        roleHelper.AddUserToRole(userId, role);
+                    }
                 }
             }
-            
+
             return RedirectToAction("ManageRoles", "Admin");
         }
 
@@ -64,10 +67,10 @@ namespace BugTracker.Controllers
         public ActionResult ManageProjectUsers()
         {
             ViewBag.Projects = new MultiSelectList(db.Projects, "Id", "Name");
-            ViewBag.AdminId = new SelectList(roleHelper.UsersIn2Roles("Admin", "DemoAdmin"), "Id", "Email");
-            ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersIn2Roles("Project_Manager", "DemoProject_Manager"), "Id", "Email");
-            ViewBag.Developers = new MultiSelectList(roleHelper.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "Email");
-            ViewBag.Submitters = new MultiSelectList(roleHelper.UsersIn2Roles("Submitter", "DemoSubmitter"), "Id", "Email");
+            ViewBag.AdminId = new SelectList(roleHelper.UsersIn2Roles("Admin", "DemoAdmin"), "Id", "FullName");
+            ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersIn2Roles("Project_Manager", "DemoProject_Manager"), "Id", "FullName");
+            ViewBag.Developers = new MultiSelectList(roleHelper.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "FullName");
+            ViewBag.Submitters = new MultiSelectList(roleHelper.UsersIn2Roles("Submitter", "DemoSubmitter"), "Id", "FullName");
 
             var myData = new List<UserProjectListViewModel>();
             UserProjectListViewModel userVM = null;
@@ -76,7 +79,7 @@ namespace BugTracker.Controllers
             {
                 userVM = new UserProjectListViewModel
                 {
-                    Name = $"{user.DisplayName}, {user.Email}",
+                    Name = $"{user.FullName}",
                     ProjectNames = projHelper.ListUserProjects(user.Id).Select(p => p.Name).ToList()
                     //ProjectNames = projHelper.ListUserProjects(user.Id).Count() == 0 ? "N/A" : projHelper.ListUserProjects(user.Id).Select(p => p.Name).ToList()
                 };

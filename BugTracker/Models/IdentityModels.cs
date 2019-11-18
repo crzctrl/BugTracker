@@ -28,6 +28,15 @@ namespace BugTracker.Models
         [StringLength(25, MinimumLength = 1, ErrorMessage = "Name must have min length of 1 and max Length of 25")]
         public string DisplayName { get; set; }
         
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
+
         //[NotMapped]
         //public string CorrectName
         //{

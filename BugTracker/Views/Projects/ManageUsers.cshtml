@@ -14,61 +14,72 @@
         <li class="active">Manage Users</li>
     </ol>
 </div>
+<br/>
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <div class="panel panel-primary" id="minraise">
+            <div class="panel-heading">Manage Users</div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="row">
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("ProjectId", (int)ViewBag.ProjectId)
 
-@using (Html.BeginForm())
-{
-    <div class="row">
-        @Html.AntiForgeryToken()
-        @Html.Hidden("ProjectId", (int)ViewBag.ProjectId)
+                            @if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
+                            {
+                                <div class="col-md-offset-1 col-md-10">
+                                    @*<div class="checkbox">
+                            <label>
+                                @Html.CheckBox("AdminId") Assign  Thyself
+                            </label>
+                        </div>*@
 
-        @if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
-        {
-            <div class="col-md-4">
-                @*<div class="checkbox">
-                    <label>                    
-                        @Html.CheckBox("AdminId") Assign  Thyself
-                    </label>
-                </div>*@
-
-                <div class="row">
-                    <h3>Admin</h3>
-                    <hr />
+                                    <div class="row">
+                                        <h3>Admin</h3>
+                                    </div>
+                                    <div class="row">
+                                        @Html.DropDownList("AdminId", null, "-- Select --", new { @class = "form-control" })
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <h3>Project Manager</h3>
+                                    </div>
+                                    <div class="row">
+                                        @Html.DropDownList("ProjectManagerId", null, "-- Select --", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-md-offset-1 col-md-10">
+                                <div class="row">
+                                    <h3>Developers</h3>
+                                </div>
+                                <div class="row">
+                                    @Html.ListBox("Developers", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-offset-1 col-md-10">
+                                <div class="row">
+                                    <h3>Submitters</h3>
+                                </div>
+                                <div class="row">
+                                    @Html.ListBox("Submitters", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-offset-2 col-md-8">
+                                <br/>
+                                <div class="row">
+                                    <button type="submit" class="btn btn-primary bigbtn">Assign</button>
+                                </div>
+                            </div>
+                        </div>
+                    }   
                 </div>
-                <div class="row">
-                    @Html.DropDownList("AdminId", null, "-- Select --", new { @class = "form-control" })
-                </div>
-
-                <div class="row">
-                    <h3>Project Manager</h3>
-                    <hr />
-                </div>
-                <div class="row">
-                    @Html.DropDownList("ProjectManagerId", null, "-- Select --", new { @class = "form-control" })
-                </div>
-            </div>
-        }
-        <div class="col-md-4">
-            <div class="row">
-                <h3>Developers</h3>
-                <hr />
-            </div>
-            <div class="row">
-                @Html.ListBox("Developers", null, new { @class = "form-control" })
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="row">
-                <h3>Submitters</h3>
-                <hr/>
-            </div>
-            <div class="row">
-                @Html.ListBox("Submitters", null, new { @class = "form-control" })
-            </div>
+        <div>
+            @Html.ActionLink("Back to List", "Index")
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <button type="submit" class="btn btn-primary">Assign</button>
-        </div>
-    </div>
-}
+</div>

@@ -29,19 +29,19 @@ namespace BugTracker.Controllers
         }
 
         // GET: TicketComments/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketComment ticketComment = db.TicketComments.Find(id);
-            if (ticketComment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketComment);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketComment ticketComment = db.TicketComments.Find(id);
+        //    if (ticketComment == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketComment);
+        //}
 
 
         // POST: TicketComments/Create
@@ -58,7 +58,7 @@ namespace BugTracker.Controllers
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
 
-                //nHelp.AddCommentNotification(ticket);
+                nHelp.AddCommentNotification(ticketComment);
 
                 var returnId = db.Tickets.Find(ticketComment.TicketId).Id;
                 return RedirectToAction("Details", "Tickets", new { id = returnId });

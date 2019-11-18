@@ -11,18 +11,19 @@
                 <em class="fa fa-home"></em>
             </a>
         </li>
+        <li><a href="@Url.Action("Index", "Tickets")">Tickets</a></li>
         <li class="active">All Tickets</li>
     </ol>
 </div>
 
-@if (User.IsInRole("Submitter"))
+@if (User.IsInRole("Submitter") || User.IsInRole("DemoSubmitter"))
 {
     <p>
         @Html.ActionLink("Create New", "Create") |
         @Html.ActionLink("View Your Tickets", "Index", "Tickets")
     </p>
 }
-else if (User.IsInRole("Developer"))
+else if (User.IsInRole("Developer") || User.IsInRole("DemoDeveloper"))
 {
     <p>
         @Html.ActionLink("View Your Tickets", "Index", "Tickets") |
@@ -36,85 +37,88 @@ else
     </p>
 }
 
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Developer)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Project.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Submitter)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TicketPriority.PriorityName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TicketStatus.StatusName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TicketType.TypeName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Created)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Updated)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Developer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Project.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Submitter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketPriority.PriorityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketStatus.StatusName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketType.TypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Updated)
+            </th>
+            @if (User.IsInRole("Admin") || User.IsInRole("Demo_Admin"))
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Developer.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Project.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Submitter.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketType.TypeName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Created)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Updated)
-                    </td>
-                    @if (User.IsInRole("Admin") || User.IsInRole("Demo_Admin"))
-                    {
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                        </td>
-                    }
-                </tr>
+                <th></th>
             }
-        </tbody>
-    </table>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Developer.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Submitter.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketType.TypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Updated)
+                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Demo_Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

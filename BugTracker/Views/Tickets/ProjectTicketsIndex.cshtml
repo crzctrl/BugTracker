@@ -11,6 +11,7 @@
                 <em class="fa fa-home"></em>
             </a>
         </li>
+        <li><a href="@Url.Action("Index", "Tickets")">Tickets</a></li>
         <li class="active">Project Tickets</li>
     </ol>
 </div>
@@ -61,13 +62,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Developer.Email)
+                    @Html.DisplayFor(modelItem => item.Developer.FullName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Project.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Submitter.Email)
+                    @Html.DisplayFor(modelItem => item.Submitter.FullName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)
@@ -90,21 +91,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Updated)
                 </td>
-                @if (User.IsInRole("Project_Manager") || User.IsInRole("Developer") || User.IsInRole("DemoProject_Manager") || User.IsInRole("DemoDeveloper"))
-                {
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                }
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
             </tr>
         }
     </tbody>

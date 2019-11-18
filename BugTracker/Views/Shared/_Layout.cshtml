@@ -6,6 +6,7 @@
     var db = new ApplicationDbContext();
     var rHelp = new RoleHelper();
     var user = db.Users.Find(User.Identity.GetUserId());
+    var demo = User.IsInRole("DemoAdmin") || User.IsInRole("DemoProject_Manager") || User.IsInRole("DemoDeveloper") || User.IsInRole("DemoSubmitter");
 }
 
 <!DOCTYPE html>
@@ -151,8 +152,15 @@
             <div class="profile-userpic">
                 <img src="@user.AvatarPath" class="img-responsive" alt="">
             </div>
-            <div class="profile-usertitle">
-                <div class="profile-usertitle-name"><a href=@Url.Action("Index", "Manage")>@user.DisplayName</a></div>
+            <div class="profile-usertitle dropdown">
+                <div class="profile-usertitle-name">
+                    <a data-toggle="dropdown" href="#">@user.DisplayName</a>
+                    <div class="dropdown-menu dropdown-alerts" style="width: 180px">
+                        <a href="@Url.Action("EditProfile", "Manage")"><span style="font-size: 14px">Edit your profile</span></a>
+                        <br />
+                        <a href="@Url.Action("ChangePassword", "Manage")"><span style="font-size: 14px">Change your password</span></a>
+                    </div>
+                </div>
                 <div class="profile-usertitle-status"><span class="indicator label-success"></span>@rHelp.ListUserRoles(user.Id).FirstOrDefault()</div>
             </div>
             <div class="clear"></div>
@@ -182,14 +190,14 @@
                                 <span class="fa fa-arrow-right">&nbsp;</span> All Projects
                             </a>
                         </li>
-                        <li><a href=@Url.Action("ManageProjectUsers", "Admin")><em class="fa fa-users">&nbsp;</em> Manage Project Users</a></li>                        
+                        <li><a href=@Url.Action("ManageProjectUsers", "Admin")><em class="fa fa-users">&nbsp;</em> Manage Project Users</a></li>
                     </ul>
                 </li>
-            }            
+            }
             @if (User.IsInRole("Developer") || User.IsInRole("Submitter") || User.IsInRole("DemoDeveloper") || User.IsInRole("DemoSubmitter"))
             {
                 <li><a href=@Url.Action("Index","Projects")><em class="fa fa-folder">&nbsp;</em> Projects</a></li>
-            }            
+            }
             <li class="parent ">
                 <a data-toggle="collapse" href="#sub-item-2">
                     <em class="fa fa-ticket">&nbsp;</em> Tickets <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
@@ -227,6 +235,10 @@
                 <li><a href=@Url.Action("ManageRoles", "Admin")><em class="fa fa-user-secret">&nbsp;</em> Manage Roles</a></li>
             }
             <li><a href=@Url.Action("CustomLogOff", "Account")><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
+            @if (demo)
+            {
+                <li><p class="text-center" style="color:red">Demos have limited access!</p></li>
+            }
         </ul>
     </div>
 

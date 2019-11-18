@@ -56,10 +56,10 @@ namespace BugTracker.Controllers
             //ViewBag.Submitters = new MultiSelectList(roleHelper.UsersInRole("Submitter"), "Id", "Email", projSubs);
             #endregion
 
-            ViewBag.AdminId = new SelectList(rHelp.UsersIn2Roles("Admin", "DemoAdmin"), "Id", "Email", pHelp.ListUsersOnProjectInRole(id, "Admin").FirstOrDefault());
-            ViewBag.ProjectManagerId = new SelectList(rHelp.UsersIn2Roles("Project_Manager", "DemoProject_Manager"), "Id", "Email", pHelp.ListUsersOnProjectInRole(id, "Project_Manager").FirstOrDefault());
-            ViewBag.Developers = new MultiSelectList(rHelp.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "Email", pHelp.ListUsersOnProjectInRole(id, "Developer"));
-            ViewBag.Submitters = new MultiSelectList(rHelp.UsersIn2Roles("Submitter", "DemoSubmitter"), "Id", "Email", pHelp.ListUsersOnProjectInRole(id, "Submitter"));
+            ViewBag.AdminId = new SelectList(rHelp.UsersIn2Roles("Admin", "DemoAdmin"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles(id, "Admin", "DemoAdmin").FirstOrDefault());
+            ViewBag.ProjectManagerId = new SelectList(rHelp.UsersIn2Roles("Project_Manager", "DemoProject_Manager"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles(id, "Project_Manager", "DemoProject_Manager").FirstOrDefault());
+            ViewBag.Developers = new MultiSelectList(rHelp.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles(id, "Developer", "DemoDeveloper"));
+            ViewBag.Submitters = new MultiSelectList(rHelp.UsersIn2Roles("Submitter", "DemoSubmitter"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles(id, "Submitter", "DemoSubmitter"));
 
             return View();
         }
@@ -115,19 +115,19 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = db.Projects.Find(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Project project = db.Projects.Find(id);
+        //    if (project == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(project);
+        //}
 
         // GET: Projects/Create
         [Authorize(Roles = "Admin, Project_Manager, DemoAdmin, DemoProject_Manager")]
@@ -188,20 +188,20 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/Delete/5
-        [Authorize(Roles = "Admin")]
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = db.Projects.Find(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
-        }
+        //[Authorize(Roles = "Admin")]
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Project project = db.Projects.Find(id);
+        //    if (project == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(project);
+        //}
 
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]

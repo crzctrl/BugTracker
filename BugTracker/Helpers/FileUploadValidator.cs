@@ -13,11 +13,11 @@ namespace BugTracker.Helpers
     {
         public static bool IsWebFriendlyImage(HttpPostedFileBase file)
         {
-            if(file == null)
+            if (file == null)
             {
                 return false;
             }
-            if(file.ContentLength > 2 * 1024 * 1024 || file.ContentLength < 1024)
+            if (file.ContentLength > 2 * 1024 * 1024 || file.ContentLength < 1024)
             {
                 return false;
             }
@@ -62,6 +62,21 @@ namespace BugTracker.Helpers
             {
                 return false;
             }
+        }
+
+        public static string GetIcon(string file)
+        {
+            var low = file.ToLower();
+            var keyValue = WebConfigurationManager.AppSettings[Path.GetExtension(file)];
+            var defaultValue = WebConfigurationManager.AppSettings["DefaultIcon"];
+            if (Path.GetExtension(low) == ".jpg" || Path.GetExtension(low) == ".png" || Path.GetExtension(low) == ".tiff" || Path.GetExtension(low) == ".bmp" || Path.GetExtension(low) == ".gif")
+            {
+                return file;
+            }
+            else
+            {
+                return string.IsNullOrEmpty(keyValue) ? defaultValue : keyValue;
+            }            
         }
     }
 }

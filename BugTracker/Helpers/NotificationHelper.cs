@@ -19,9 +19,6 @@ namespace BugTracker.Helpers
             var reassignedTicket = oldTicket.DeveloperId != null && newTicket.DeveloperId != null && oldTicket.DeveloperId != newTicket.DeveloperId;
             var statusTicket = oldTicket.TicketStatusId != newTicket.TicketStatusId;
             var priorityTicket = oldTicket.TicketPriorityId != newTicket.TicketPriorityId;
-            //var commentTicket = oldTicket.TicketComments.FirstOrDefault().Created == null && newTicket.TicketComments != null;
-            //var attachmentTicket = oldTicket.TicketAttachments == null && newTicket.TicketAttachments != null;
-
 
             if (assignedTicket)
                 AddAssignmentNotification(oldTicket, newTicket);
@@ -106,32 +103,38 @@ namespace BugTracker.Helpers
             db.SaveChanges();
         }
 
-        public void AddCommentNotification(Ticket oldTicket, Ticket newTicket)
+        public void AddCommentNotification(TicketComment ticket)
         {
+            var title = db.Tickets.Where(t => t.Id == ticket.TicketId).FirstOrDefault().Title;
+
             var notification = new TicketNotification
             {
-                TicketId = newTicket.Id,
+                TicketId = ticket.TicketId,
                 isRead = false,
-                SenderId = HttpContext.Current.User.Identity.GetUserId(),
-                RecipientId = oldTicket.DeveloperId,
+                SenderId = ticket.UserId,
+                RecipientId = db.Tickets.Where(t => t.Id == ticket.TicketId).FirstOrDefault().DeveloperId,
                 Created = DateTime.Now,
-                NotificationBody = $"A comment was added Ticket #{newTicket.Id}: {newTicket.Title}."
+                //NotificationBody = $"{ticket.User.DisplayName} posted a comment was added to Ticket: #{ticket.TicketId}: {title}."
+                NotificationBody = $"A comment was added to Ticket: #{ticket.TicketId}: {title}."
             };
 
             db.TicketNotifications.Add(notification);
             db.SaveChanges();
         }
 
-        private void AddAttachmentNotification(Ticket oldTicket, Ticket newTicket)
+        public void AddAttachmentNotification(TicketAttachment ticket)
         {
+            var title = db.Tickets.Where(t => t.Id == ticket.TicketId).FirstOrDefault().Title;
+
             var notification = new TicketNotification
             {
-                TicketId = newTicket.Id,
+                TicketId = ticket.TicketId,
                 isRead = false,
-                SenderId = HttpContext.Current.User.Identity.GetUserId(),
-                RecipientId = oldTicket.DeveloperId,
+                SenderId = ticket.UserId,
+                RecipientId = db.Tickets.Where(t => t.Id == ticket.TicketId).FirstOrDefault().DeveloperId,
                 Created = DateTime.Now,
-                NotificationBody = $"An attachment was added Ticket #{newTicket.Id}: {newTicket.Title}."
+                //NotificationBody = $"{ticket.User.DisplayName} added an attachment was added to Ticket #{ticket.TicketId}: {title}."
+                NotificationBody = $"An attachment was added to Ticket #{ticket.TicketId}: {title}."
             };
 
             db.TicketNotifications.Add(notification);

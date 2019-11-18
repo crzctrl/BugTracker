@@ -17,31 +17,31 @@ namespace BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketTypes
-        public ActionResult Index()
-        {
-            return View(db.TicketTypes.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    return View(db.TicketTypes.ToList());
+        //}
 
         // GET: TicketTypes/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketType ticketType = db.TicketTypes.Find(id);
-            if (ticketType == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketType);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketType ticketType = db.TicketTypes.Find(id);
+        //    if (ticketType == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketType);
+        //}
 
         // GET: TicketTypes/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
         // POST: TicketTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -61,19 +61,19 @@ namespace BugTracker.Controllers
         }
 
         // GET: TicketTypes/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketType ticketType = db.TicketTypes.Find(id);
-            if (ticketType == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketType);
-        }
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketType ticketType = db.TicketTypes.Find(id);
+        //    if (ticketType == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketType);
+        //}
 
         // POST: TicketTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -92,19 +92,19 @@ namespace BugTracker.Controllers
         }
 
         // GET: TicketTypes/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketType ticketType = db.TicketTypes.Find(id);
-            if (ticketType == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketType);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketType ticketType = db.TicketTypes.Find(id);
+        //    if (ticketType == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketType);
+        //}
 
         // POST: TicketTypes/Delete/5
         [HttpPost, ActionName("Delete")]

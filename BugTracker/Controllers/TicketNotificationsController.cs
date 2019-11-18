@@ -33,27 +33,27 @@ namespace BugTracker.Controllers
         }
 
         // GET: TicketNotifications/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketNotification ticketNotification = db.TicketNotifications.Find(id);
-            if (ticketNotification == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketNotification);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketNotification ticketNotification = db.TicketNotifications.Find(id);
+        //    if (ticketNotification == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketNotification);
+        //}
 
         // GET: TicketNotifications/Create
-        public ActionResult Create()
-        {
-            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId");
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName");
+        //    ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId");
+        //    return View();
+        //}
 
         // POST: TicketNotifications/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -75,21 +75,21 @@ namespace BugTracker.Controllers
         }
 
         // GET: TicketNotifications/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketNotification ticketNotification = db.TicketNotifications.Find(id);
-            if (ticketNotification == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketNotification.TicketId);
-            return View(ticketNotification);
-        }
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketNotification ticketNotification = db.TicketNotifications.Find(id);
+        //    if (ticketNotification == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
+        //    ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketNotification.TicketId);
+        //    return View(ticketNotification);
+        //}
 
         // POST: TicketNotifications/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -110,19 +110,19 @@ namespace BugTracker.Controllers
         }
 
         // GET: TicketNotifications/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketNotification ticketNotification = db.TicketNotifications.Find(id);
-            if (ticketNotification == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketNotification);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketNotification ticketNotification = db.TicketNotifications.Find(id);
+        //    if (ticketNotification == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketNotification);
+        //}
 
         // POST: TicketNotifications/Delete/5
         [HttpPost, ActionName("Delete")]

@@ -26,111 +26,55 @@
     <![endif]-->
 </head>
 <body class="bg-image">
-    <div class="panel panel-container">
-        <div class="row">
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <div class="panel panel-teal panel-widget border-right">
-                    <div class="row no-padding">
-                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.Hidden("emailKey", "DemoAdminEmail")
-
-                            <button type="submit" class="btn btn-default"><h4>Admin</h4><img src="~/Avatars/Ace of Diamonds.jpg" id="pinups" /></button>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <div class="panel panel-blue panel-widget border-right">
-                    <div class="row no-padding">
-                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.Hidden("emailKey", "DemoProjMgrEmail")
-
-                            <button type="submit" class="btn btn-default"><h4>Project Manager</h4><img src="~/Avatars/King of Hearts.jpg" id="pinups" /></button>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <div class="panel panel-orange panel-widget border-right">
-                    <div class="row no-padding">
-                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.Hidden("emailKey", "DemoDeveloperEmail")
-
-                            <button type="submit" class="btn btn-default"><h4>Developer</h4><img src="~/Avatars/Queen of Hearts.jpg" id="pinups" /></button>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <div class="panel panel-red panel-widget ">
-                    <div class="row no-padding">
-                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.Hidden("emailKey", "DemoSubmitterEmail")
-
-                            <button type="submit" class="btn btn-default"><h4>Submitter</h4><img src="~/Avatars/Jack of Hearts.jpg" id="pinups" /></button>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row">
-        <div class="col-xs-6 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
+        <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+            <div class="panel panel-default panel-widget">
+                <div class="row no-padding">
                     @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         @Html.Hidden("emailKey", "DemoAdminEmail")
 
-                        <button type="submit" class="btn btn-default"><h4>Admin</h4><img src="~/Avatars/Ace of Diamonds.jpg" id="pinups" /></button>
+                        <button type="submit" class="btn btn-default" id="pinupBtn"><h4>The Admin</h4><h6 style="white-space: normal">The one with an overlook of the whole operation</h6><img src="~/Avatars/Ace of Diamonds.jpg" id="pinups" /></button>
                     }
                 </div>
             </div>
         </div>
-        <div class="col-xs-6 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
+        <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+            <div class="panel panel-default panel-widget">
+                <div class="row no-padding">
                     @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         @Html.Hidden("emailKey", "DemoProjMgrEmail")
 
-                        <button type="submit" class="btn btn-default"><h4>Project Manager</h4><img src="~/Avatars/King of Hearts.jpg" id="pinups" /></button>
+                        <button type="submit" class="btn btn-default" id="pinupBtn"><h4>Project Manager</h4><h6 style="white-space: normal">The project lead who assigns developers to tickets</h6><img src="~/Avatars/King of Hearts.jpg" id="pinups" /></button>
                     }
                 </div>
             </div>
         </div>
-        <div class="col-xs-6 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
+        <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+            <div class="panel panel-default panel-widget">
+                <div class="row no-padding">
                     @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         @Html.Hidden("emailKey", "DemoDeveloperEmail")
-                        
-                        <button type="submit" class="btn btn-default"><h4>Developer</h4><img src="~/Avatars/Queen of Hearts.jpg" id="pinups" /></button>
+
+                        <button type="submit" class="btn btn-default" id="pinupBtn"><h4>Developer</h4><h6 style="white-space: normal">The worker in charge of resolving all assigned tickets</h6><img src="~/Avatars/Queen of Hearts.jpg" id="pinups" /></button>
                     }
                 </div>
             </div>
         </div>
-        <div class="col-xs-6 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
+        <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+            <div class="panel panel-default panel-widget">
+                <div class="row no-padding">
                     @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         @Html.Hidden("emailKey", "DemoSubmitterEmail")
-                                                
-                        <button type="submit" class="btn btn-default"><h4>Submitter</h4><img src="~/Avatars/Jack of Hearts.jpg" id="pinups" /></button>
+
+                    <button type="submit" class="btn btn-default" id="pinupBtn"><h4>Submitter</h4><h6 style="white-space: normal">The sole person that creates and submits tickets</h6><img src="~/Avatars/Jack of Hearts.jpg" id="pinups" /></button>
                     }
                 </div>
             </div>

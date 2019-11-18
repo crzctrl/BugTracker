@@ -17,31 +17,31 @@ namespace BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketPriorities
-        public ActionResult Index()
-        {
-            return View(db.TicketPriorities.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    return View(db.TicketPriorities.ToList());
+        //}
 
         // GET: TicketPriorities/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketPriority ticketPriority = db.TicketPriorities.Find(id);
-            if (ticketPriority == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketPriority);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketPriority ticketPriority = db.TicketPriorities.Find(id);
+        //    if (ticketPriority == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketPriority);
+        //}
 
         // GET: TicketPriorities/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
         // POST: TicketPriorities/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -61,19 +61,19 @@ namespace BugTracker.Controllers
         }
 
         // GET: TicketPriorities/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketPriority ticketPriority = db.TicketPriorities.Find(id);
-            if (ticketPriority == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketPriority);
-        }
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketPriority ticketPriority = db.TicketPriorities.Find(id);
+        //    if (ticketPriority == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketPriority);
+        //}
 
         // POST: TicketPriorities/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -92,19 +92,19 @@ namespace BugTracker.Controllers
         }
 
         // GET: TicketPriorities/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketPriority ticketPriority = db.TicketPriorities.Find(id);
-            if (ticketPriority == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketPriority);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketPriority ticketPriority = db.TicketPriorities.Find(id);
+        //    if (ticketPriority == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketPriority);
+        //}
 
         // POST: TicketPriorities/Delete/5
         [HttpPost, ActionName("Delete")]

@@ -32,6 +32,7 @@ namespace BugTracker.Controllers
             return View(tHelp.ListMyTickets());
         }
 
+        [Authorize(Roles = "Developer, DemoDeveloper")]
         public ActionResult ProjectTicketsIndex()
         {
             var myTickets = new List<Ticket>();
@@ -39,7 +40,7 @@ namespace BugTracker.Controllers
             var user = db.Users.Find(userId);
             var myRole = rHelp.ListUserRoles(userId).FirstOrDefault();
 
-            if(myRole == "Developer")
+            if(myRole == "Developer" || myRole == "DemoDeveloper")
             {
                 myTickets.AddRange(user.Projects.SelectMany(p => p.Tickets));
             }
@@ -47,7 +48,6 @@ namespace BugTracker.Controllers
             return View(myTickets);
         }
 
-        [Authorize(Roles = "Admin, DemoAdmin")]
         public ActionResult AllTicketsIndex()
         {
             var tickets = db.Tickets.Include(t => t.Developer).Include(t => t.Project).Include(t => t.Submitter).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
@@ -73,9 +73,9 @@ namespace BugTracker.Controllers
         [Authorize(Roles = "Submitter, DemoSubmitter")]
         public ActionResult Create()
         {
-            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "Email");
+            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName");
             ViewBag.ProjectId = new SelectList(pHelp.ListUserProjects(User.Identity.GetUserId()), "Id", "Name");
-            ViewBag.SubmitterId = new SelectList(db.Users, "Id", "Email");
+            ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FullName");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "StatusName");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "TypeName");
@@ -99,9 +99,9 @@ namespace BugTracker.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "Email", ticket.DeveloperId);
+            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", ticket.DeveloperId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            //ViewBag.SubmitterId = new SelectList(db.Users, "Id", "Email", ticket.SubmitterId);
+            //ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FullName", ticket.SubmitterId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "StatusName", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "TypeName", ticket.TicketTypeId);
@@ -121,9 +121,9 @@ namespace BugTracker.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DeveloperId = new SelectList(rHelp.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "Email", ticket.DeveloperId);
+            ViewBag.DeveloperId = new SelectList(rHelp.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "FullName", ticket.DeveloperId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            ViewBag.SubmitterId = new SelectList(rHelp.UsersIn2Roles("Submitter", "DemoSubmitter"), "Id", "Email", ticket.SubmitterId);
+            ViewBag.SubmitterId = new SelectList(rHelp.UsersIn2Roles("Submitter", "DemoSubmitter"), "Id", "FullName", ticket.SubmitterId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "StatusName", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "TypeName", ticket.TicketTypeId);
@@ -153,9 +153,9 @@ namespace BugTracker.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "Email", ticket.DeveloperId);
+            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", ticket.DeveloperId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            //ViewBag.SubmitterId = new SelectList(db.Users, "Id", "Email", ticket.SubmitterId);
+            //ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FullName", ticket.SubmitterId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "StatusName", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "TypeName", ticket.TicketTypeId);
@@ -195,7 +195,7 @@ namespace BugTracker.Controllers
             RoleHelper rHelp = new RoleHelper();
             var ticket = db.Tickets.Find(id);
             var users = rHelp.UsersIn2Roles("Developer", "DemoDeveloper").ToList();
-            ViewBag.DeveloperId = new SelectList(users, "Id", "Email", ticket.DeveloperId);
+            ViewBag.DeveloperId = new SelectList(users, "Id", "FullName", ticket.DeveloperId);
 
             return View(ticket);
         }

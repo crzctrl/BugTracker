@@ -27,6 +27,21 @@ namespace BugTracker.Helpers
 
             return userIdList;
         }
+
+        public List<string> ListUsersOnProjectIn2Roles(int projectId, string roleName1, string roleName2)
+        {
+            var userIdList = new List<string>();
+            foreach (var user in UsersOnProject(projectId))
+            {
+                if (rHelp.IsUserInRole(user.Id, roleName1) || rHelp.IsUserInRole(user.Id, roleName2))
+                {
+                    userIdList.Add(user.Id);
+                }
+            }
+
+            return userIdList;
+        }
+
         public bool IsUserOnProject(string userId, int projectId)
         {
             var project = db.Projects.Find(projectId);
