@@ -18,13 +18,12 @@ namespace BugTracker.Controllers
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private ApplicationUser aUser = new ApplicationUser();
+        private ApplicationUser user = new ApplicationUser();
         private RoleHelper rHelp = new RoleHelper();
         private TicketHelper tHelp = new TicketHelper();
         private TicketHistoryHelper hHelp = new TicketHistoryHelper();
         private NotificationHelper nHelp = new NotificationHelper();
         private ProjectsHelper pHelp = new ProjectsHelper();
-
 
         // GET: Tickets
         public ActionResult Index()
@@ -65,6 +64,30 @@ namespace BugTracker.Controllers
             if (ticket == null)
             {
                 return HttpNotFound();
+            }
+            var sub = rHelp.IsUserInRole(User.Identity.GetUserId(), "Submitter") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoSubmitter");
+            if (sub)
+            {
+                if (ticket.SubmitterId != User.Identity.GetUserId())
+                {
+                    return HttpNotFound();
+                }
+            }
+            var demo = rHelp.IsUserInRole(User.Identity.GetUserId(), "Developer") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoDeveloper");
+            if (demo)
+            {
+                if (ticket.DeveloperId != User.Identity.GetUserId())
+                {
+                    return HttpNotFound();
+                }
+            }
+            var pm = rHelp.IsUserInRole(User.Identity.GetUserId(), "Project_Manager") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoProject_Manager");
+            if (pm)
+            {
+                if (!pHelp.IsUserOnProject(User.Identity.GetUserId(), ticket.ProjectId))
+                {
+                    return HttpNotFound();
+                }
             }
             return View(ticket);
         }
@@ -120,6 +143,31 @@ namespace BugTracker.Controllers
             if (ticket == null)
             {
                 return HttpNotFound();
+            }
+            var sub = rHelp.IsUserInRole(User.Identity.GetUserId(), "Submitter") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoSubmitter");
+            if (sub)
+            {
+                if (ticket.SubmitterId != User.Identity.GetUserId())
+                {
+                    return HttpNotFound();
+                }
+            }
+            var demo = rHelp.IsUserInRole(User.Identity.GetUserId(), "Developer") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoDeveloper");
+            if (demo)
+            {
+                if (ticket.DeveloperId != User.Identity.GetUserId())
+                {
+                    return HttpNotFound();
+                }
+            }
+            //db.Projects.Find(ticketid)
+            var pm = rHelp.IsUserInRole(User.Identity.GetUserId(), "Project_Manager") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoProject_Manager");
+            if (pm)
+            {
+                if (!pHelp.IsUserOnProject(User.Identity.GetUserId(), ticket.ProjectId))
+                {
+                    return HttpNotFound();
+                }
             }
             ViewBag.DeveloperId = new SelectList(rHelp.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "FullName", ticket.DeveloperId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
