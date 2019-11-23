@@ -20,6 +20,7 @@ namespace BugTracker.Controllers
         private RoleHelper rHelp = new RoleHelper();
         private ProjectsHelper pHelp = new ProjectsHelper();
 
+        [Authorize(Roles = "Admin, Project_Manager, DemoAdmin, DemoProject_Manager")]
         public ActionResult ManageUsers(int id)
         {
             ViewBag.ProjectId = id;
@@ -109,6 +110,7 @@ namespace BugTracker.Controllers
             return View(pHelp.ListUserProjects(User.Identity.GetUserId()));
         }
 
+        [Authorize(Roles = "Admin, Project_Manager, DemoAdmin, DemoProject_Manager")]
         public ActionResult AllProjectsIndex()
         {
             return View(db.Projects.ToList());

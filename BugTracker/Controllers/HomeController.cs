@@ -19,25 +19,25 @@ namespace BugTracker.Controllers
             return View();
         }
        
-        public ActionResult Index()
-        {
-            return View();
-        }
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+        //public ActionResult About()
+        //{
+        //    ViewBag.Message = "Your application description page.";
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        public ActionResult Contact()
-        {
-            //ViewBag.Message = "Your contact page.";
-            EmailModel model = new EmailModel();
+        //public ActionResult Contact()
+        //{
+        //    //ViewBag.Message = "Your contact page.";
+        //    EmailModel model = new EmailModel();
 
-            return View();
-        }
+        //    return View();
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]

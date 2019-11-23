@@ -32,6 +32,14 @@
                             @Html.HiddenFor(m => m.Id)
                             @Html.HiddenFor(m => m.ProjectId)
                             @Html.HiddenFor(m => m.SubmitterId)
+                            @if (User.IsInRole("Project_Manager") || User.IsInRole("DemoProject_Manager"))
+                            {
+                                
+                            }
+                            else
+                            {
+                                @Html.HiddenFor(m => m.DeveloperId)
+                            }
                             @Html.HiddenFor(m => m.Created)
 
                             @*<div class="form-group">
@@ -92,7 +100,7 @@
                                 <div class="form-group">
                                     <div class="col-md-offset-1 col-md-10">
                                         <label>Developer</label>
-                                        @Html.DropDownList("DeveloperId", null, "-- Select --", htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("DeveloperId", null, "-- Select --", htmlAttributes: new { @class = "form-control", placeholder = "" })
                                         @Html.ValidationMessageFor(model => model.DeveloperId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

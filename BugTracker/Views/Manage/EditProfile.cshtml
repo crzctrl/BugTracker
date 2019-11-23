@@ -1,4 +1,5 @@
 ﻿@using BugTracker.Models
+@using BugTracker.Helpers
 @using Microsoft.AspNet.Identity
 
 @model BugTracker.Models.ApplicationUser
@@ -6,8 +7,9 @@
 @{
     ViewBag.Title = "Edit Profile";
     var db = new ApplicationDbContext();
+    var rHelp = new RoleHelper();
     var user = db.Users.Find(User.Identity.GetUserId());
-    var demo = User.IsInRole("DemoAdmin") || User.IsInRole("DemoProject_Manager") || User.IsInRole("DemoDeveloper") || User.IsInRole("DemoSubmitter"); 
+    var demo = rHelp.isDemoUser(User.Identity.GetUserId()); 
 }
 
 <div class="row">
@@ -33,6 +35,7 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary("", new { @class = "text-danger" })
+                        
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-offset-1 col-md-10">

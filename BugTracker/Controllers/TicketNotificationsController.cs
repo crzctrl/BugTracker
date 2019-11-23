@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BugTracker.Models;
+using BugTracker.Helpers;
 
 namespace BugTracker.Controllers
 {
@@ -15,6 +16,7 @@ namespace BugTracker.Controllers
     public class TicketNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private TicketHelper tHelp = new TicketHelper();
 
         public ActionResult Dismiss(int id)
         {
@@ -28,8 +30,9 @@ namespace BugTracker.Controllers
         // GET: TicketNotifications
         public ActionResult Index()
         {
-            var ticketNotifications = db.TicketNotifications.Include(t => t.Recipient).Include(t => t.Ticket);
-            return View(ticketNotifications.ToList());
+            //var ticketNotifications = db.TicketNotifications.Include(t => t.Recipient).Include(t => t.Ticket);
+            //return View(ticketNotifications.ToList());
+            return View(tHelp.ListMyNotifications());
         }
 
         // GET: TicketNotifications/Details/5

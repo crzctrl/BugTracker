@@ -1,7 +1,11 @@
 ﻿@using BugTracker.Models
+@using BugTracker.Helpers
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Dashboard";
     var db = new ApplicationDbContext();
+    var tHelp = new TicketHelper();
+    var pHelp = new ProjectsHelper();
 }
 
 <div class="row">
@@ -15,7 +19,7 @@
     </ol>
 </div>
 <br />
-@if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
+@if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin") || User.IsInRole("Project_Manager") || User.IsInRole("DemoProject_Manager"))
 {
     <div class="panel panel-container">
         <div class="row">
@@ -24,7 +28,7 @@
                     <div class="panel panel-teal panel-widget border-right">
                         <div class="row no-padding">
                             <em class="fa fa-xl fa-plus-square color-blue" style="font-size: 68px"></em>
-                            <div class="large"></div>&nbsp;
+                            <div class="large"></div><br />
                             <div class="text-muted">Create New Project</div>
                         </div>
                     </div>
@@ -54,7 +58,7 @@
             </div>
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <a href="@Url.Action("AllTicketsIndex", "Tickets")">
-                    <div class="panel panel-orange panel-widget border-right">
+                    <div class="panel panel-orange panel-widget">
                         <div class="row no-padding">
                             <em class="fa fa-xl fa-ticket color-teal"></em>
                             <div class="large">@db.Tickets.Count()</div>
@@ -66,7 +70,58 @@
         </div>
     </div>
 }
-else if (User.IsInRole("Submitter") || User.IsInRole("DemoSubmitter"))
+@if (User.IsInRole("Developer") || User.IsInRole("DemoDeveloper"))
+{
+    <div class="panel panel-container">
+        <div class="row">
+            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <a href="@Url.Action("Index", "Tickets")">
+                    <div class="panel panel-teal panel-widget border-right">
+                        <div class="row no-padding">
+                            <em class="fa fa-xl fa-star-half-full color-blue"></em>
+                            <div class="large">@tHelp.ListMyTickets().Count()</div>
+                            <div class="text-muted">Your Tickets</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <a href="@Url.Action("AllTicketsIndex", "Tickets")">
+                    <div class="panel panel-blue panel-widget border-right">
+                        <div class="row no-padding">
+                            <em class="fa fa-xl fa-ticket color-orange"></em>
+                            <div class="large">@db.Tickets.Count()</div>
+                            <div class="text-muted">Tickets</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <a href="@Url.Action("Index", "Projects")">
+                    <div class="panel panel-red panel-widget border-right">
+                        <div class="row no-padding">
+                            <em class="fa fa-xl fa-folder-open color-teal"></em>
+                            <div class="large">@pHelp.ListUserProjects(User.Identity.GetUserId()).Count()</div>
+                            <div class="text-muted">Projects</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <a href="@Url.Action("Index", "TicketNotifications")">
+                    <div class="panel panel-orange panel-widget">
+                        <div class="row no-padding">
+                            <em class="fa fa-xl fa-exclamation color-red" style="font-size: 70px"></em>
+                            <div class="large"></div><br />
+                            <div class="text-muted">Notifications</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+}
+@if (User.IsInRole("Submitter") || User.IsInRole("DemoSubmitter"))
 {
     <div class="panel panel-container">
         <div class="row">
@@ -75,7 +130,7 @@ else if (User.IsInRole("Submitter") || User.IsInRole("DemoSubmitter"))
                     <div class="panel panel-teal panel-widget border-right">
                         <div class="row no-padding">
                             <em class="fa fa-xl fa-plus-square color-blue" style="font-size: 68px"></em>
-                            <div class="large"></div>&nbsp;
+                            <div class="large"></div><br />
                             <div class="text-muted">Create New Ticket</div>
                         </div>
                     </div>
@@ -83,6 +138,17 @@ else if (User.IsInRole("Submitter") || User.IsInRole("DemoSubmitter"))
             </div>
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <a href="@Url.Action("Index", "Tickets")">
+                    <div class="panel panel-blue panel-widget border-right">
+                        <div class="row no-padding">
+                            <em class="fa fa-xl fa-exclamation-circle color-red"></em>
+                            <div class="large">@tHelp.ListMyTickets().Count()</div>
+                            <div class="text-muted">Your Tickets</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <a href="@Url.Action("AllTicketsIndex", "Tickets")">
                     <div class="panel panel-teal panel-widget border-right">
                         <div class="row no-padding">
                             <em class="fa fa-xl fa-ticket color-orange"></em>
@@ -93,22 +159,11 @@ else if (User.IsInRole("Submitter") || User.IsInRole("DemoSubmitter"))
                 </a>
             </div>
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <a href="@Url.Action("Index", "Tickets")">
-                    <div class="panel panel-blue panel-widget border-right">
-                        <div class="row no-padding">
-                            <em class="fa fa-xl fa-exclamation-circle color-red"></em>
-                            <div class="large">@db.Tickets.Where(t => t.DeveloperId == null).Count()</div>
-                            <div class="text-muted">Unassigned Tickets</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <a href="@Url.Action("Index", "Projects")">
-                    <div class="panel panel-orange panel-widget border-right">
+                    <div class="panel panel-orange panel-widget">
                         <div class="row no-padding">
                             <em class="fa fa-xl fa-folder-open color-teal"></em>
-                            <div class="large">@db.Projects.Count()</div>
+                            <div class="large">@pHelp.ListUserProjects(User.Identity.GetUserId()).Count()</div>
                             <div class="text-muted">Projects</div>
                         </div>
                     </div>
@@ -116,55 +171,53 @@ else if (User.IsInRole("Submitter") || User.IsInRole("DemoSubmitter"))
             </div>
         </div>
     </div>
-
-}
-else
-{
-    <div class="panel panel-container">
-        <div class="row">
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <a href="@Url.Action("Index", "Projects")">
-                    <div class="panel panel-teal panel-widget border-right">
-                        <div class="row no-padding">
-                            <em class="fa fa-xl fa-folder-open color-blue"></em>
-                            <div class="large">@db.Projects.Count()</div>
-                            <div class="text-muted">Projects</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <div class="panel panel-blue panel-widget border-right">
-                    <div class="row no-padding">
-                        <em class="fa fa-xl fa-ticket color-orange"></em>
-                        <div class="large">@db.TicketStatuses.Where(t => t.StatusName == "Open").Count()</div>
-                        <div class="text-muted">Open Tickets</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <div class="panel panel-orange panel-widget border-right">
-                    <div class="row no-padding">
-                        <em class="fa fa-xl fa-users color-teal"></em>
-                        <div class="large">@db.Roles.Where(r => r.Name == null).Count()</div>
-                        <div class="text-muted">New Users</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <div class="panel panel-red panel-widget ">
-                    <div class="row no-padding">
-                        <em class="fa fa-xl fa-search color-red"></em>
-                        <div class="large">25.2k</div>
-                        <div class="text-muted">Page Views</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 }
 <div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Ticket Priority
+                <span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
+            </div>
+            <div class="panel-body">
+                <div class="canvas-wrapper">
+                    @*<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>*@
+                    <div id="TPChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Ticket Status
+                <span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
+            </div>
+            <div class="panel-body">
+                <div class="canvas-wrapper">
+                    @*<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>*@
+                    <div id="TSChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Ticket Type
+                <span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
+            </div>
+            <div class="panel-body">
+                <div class="canvas-wrapper">
+                    @*<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>*@
+                    <div id="TTChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #region -->
+@*<div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -208,7 +261,7 @@ else
             </div>
         </div>
     </div>
-</div><!--/.row-->
+</div>
 
 <div class="row">
     <div class="col-xs-6 col-md-3">
@@ -243,7 +296,7 @@ else
             </div>
         </div>
     </div>
-</div><!--/.row-->
+</div>
 
 <div class="row">
     <div class="col-md-6">
@@ -434,8 +487,7 @@ else
                 </div>
             </div>
         </div>
-    </div><!--/.col-->
-
+    </div>
 
     <div class="col-md-6">
         <div class="panel panel-default ">
@@ -522,8 +574,58 @@ else
                 </ul>
             </div>
         </div>
-    </div><!--/.col-->
+    </div>
+
     <div class="col-sm-12">
         <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
     </div>
-</div><!--/.row-->
+</div>*@
+<!-- #endregion -->
+<div class="row">
+    <div class="col-sm-12">
+        <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/raphael.min.js"></script>
+    <script src="~/Scripts/morris.js"></script>
+    <script>
+        $(function () {
+            var url = '@Url.Action("TicketPriorityChartData", "Graphing")';
+            $.post(url).then(function (response) {
+                new Morris.Donut({
+                    element: 'TPChart',
+                    data: response,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ['Ticket Count'],
+                    resize: true,
+                });
+            });
+
+            var url = '@Url.Action("TicketStatusChartData", "Graphing")';
+            $.post(url).then(function (response) {
+                new Morris.Donut({
+                    element: 'TSChart',
+                    data: response,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ['Ticket Count'],
+                    resize: true
+                });
+            });
+
+            var url = '@Url.Action("TicketTypeChartData", "Graphing")';
+            $.post(url).then(function (response) {
+                new Morris.Donut({
+                    element: 'TTChart',
+                    data: response,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ['Ticket Count'],
+                    resize: true
+                });
+            });
+        });
+    </script>
+}

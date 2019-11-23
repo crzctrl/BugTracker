@@ -47,6 +47,7 @@ namespace BugTracker.Controllers
             return View(myTickets);
         }
 
+        [Authorize(Roles = "Admin, Project_Manager, Developer, Submitter, DemoAdmin, DemoProject_Manager, DemoDeveloper, DemoSubmitter")]
         public ActionResult AllTicketsIndex()
         {
             var tickets = db.Tickets.Include(t => t.Developer).Include(t => t.Project).Include(t => t.Submitter).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
@@ -54,6 +55,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Tickets/Details/5
+        [Authorize(Roles = "Admin, Project_Manager, Developer, Submitter, DemoAdmin, DemoProject_Manager, DemoDeveloper, DemoSubmitter")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -73,8 +75,8 @@ namespace BugTracker.Controllers
                     return HttpNotFound();
                 }
             }
-            var demo = rHelp.IsUserInRole(User.Identity.GetUserId(), "Developer") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoDeveloper");
-            if (demo)
+            var dev = rHelp.IsUserInRole(User.Identity.GetUserId(), "Developer") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoDeveloper");
+            if (dev)
             {
                 if (ticket.DeveloperId != User.Identity.GetUserId())
                 {
@@ -132,7 +134,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Tickets/Edit/5
-        //[Authorize(Roles = "Admin, DemoAdmin, Project_Manager, Developer, DemoProject_Manager, DemoDeveloper")]
+        [Authorize(Roles = "Admin, Project_Manager, Developer, Submitter, DemoAdmin, DemoProject_Manager, DemoDeveloper, DemoSubmitter")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -152,8 +154,8 @@ namespace BugTracker.Controllers
                     return HttpNotFound();
                 }
             }
-            var demo = rHelp.IsUserInRole(User.Identity.GetUserId(), "Developer") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoDeveloper");
-            if (demo)
+            var dev = rHelp.IsUserInRole(User.Identity.GetUserId(), "Developer") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoDeveloper");
+            if (dev)
             {
                 if (ticket.DeveloperId != User.Identity.GetUserId())
                 {
@@ -212,20 +214,20 @@ namespace BugTracker.Controllers
         }
 
         // GET: Tickets/Delete/5
-        [Authorize(Roles ="Admin")]
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Ticket ticket = db.Tickets.Find(id);
-            if (ticket == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticket);
-        }
+        //[Authorize(Roles ="Admin")]
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Ticket ticket = db.Tickets.Find(id);
+        //    if (ticket == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticket);
+        //}
 
         // POST: Tickets/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -238,15 +240,15 @@ namespace BugTracker.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult AssignTicket(int? id)
-        {
-            RoleHelper rHelp = new RoleHelper();
-            var ticket = db.Tickets.Find(id);
-            var users = rHelp.UsersIn2Roles("Developer", "DemoDeveloper").ToList();
-            ViewBag.DeveloperId = new SelectList(users, "Id", "FullName", ticket.DeveloperId);
+        //public ActionResult AssignTicket(int? id)
+        //{
+        //    RoleHelper rHelp = new RoleHelper();
+        //    var ticket = db.Tickets.Find(id);
+        //    var users = rHelp.UsersIn2Roles("Developer", "DemoDeveloper").ToList();
+        //    ViewBag.DeveloperId = new SelectList(users, "Id", "FullName", ticket.DeveloperId);
 
-            return View(ticket);
-        }
+        //    return View(ticket);
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]

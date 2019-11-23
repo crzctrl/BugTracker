@@ -21,9 +21,9 @@ namespace BugTracker.Controllers
         // GET: TicketHistories
         public ActionResult Index()
         {
-            var ticketHistories = db.TicketHistories.Include(t => t.Ticket).Include(t => t.User);
-            return View(ticketHistories.ToList());
-            //return View(tHelp.ListMyHistory());
+            //var ticketHistories = db.TicketHistories.Include(t => t.Ticket).Include(t => t.User);
+            //return View(ticketHistories.ToList());
+            return View(tHelp.ListMyHistory());
         }
 
         // GET: TicketHistories/Details/5

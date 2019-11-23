@@ -73,9 +73,13 @@ namespace BugTracker.Helpers
             return resultList;
         }
 
-        //public bool isDemoUser(string userId)
-        //{
+        public bool isDemoUser(string userId)
+        {
+            if (ListUserRoles(userId).FirstOrDefault().Contains("Demo")) {
+                return true;
+            }
 
-        //}
+            return false;
+        }
     }
 }

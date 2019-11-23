@@ -92,6 +92,5 @@ namespace BugTracker.Helpers
             return db.Users.Where(u => u.Projects.All(p => p.Id != projectId)).ToList();
         }
 
-
     }
 }

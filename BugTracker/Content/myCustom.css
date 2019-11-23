@@ -26,6 +26,19 @@
     /*border-radius: 100%;*/
     width: 100%;
 }
+#bombC {
+    font-size: 290px;
+    transform: scaleX(-1);
+    position: absolute;
+    left: -190px
+}
+#bombA {
+    font-size: 250px;
+    transform: scaleX(-1);
+    position: absolute;
+    left: -199px;
+    top: -53px
+}
 
 /*Ticket*/
 /*body {
@@ -178,6 +191,16 @@
         width: 350px;
         margin: 20px auto;
     }
+    #bombC {
+        font-size: 220px;
+        right: -50px;
+        top: -100px
+    }
+    #bombA {
+        font-size: 220px;
+        right: -50px;
+        top: -100px
+    }
 }
 @media only screen and (max-width: 767px) {
     .ticket {
@@ -186,5 +209,13 @@
         align-items: center;
         width: 125px;
         margin: 20px auto;
+    }
+}
+@media only screen and (max-width: 607px) {
+    #bombC {
+        opacity: .2;
+    }
+    #bombA {
+        opacity: .2;
     }
 }
