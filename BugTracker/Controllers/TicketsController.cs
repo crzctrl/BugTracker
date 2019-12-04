@@ -256,6 +256,14 @@ namespace BugTracker.Controllers
         {
             var ticket = db.Tickets.Find(model.Id);
             ticket.DeveloperId = model.DeveloperId;
+            //if (ticket.DeveloperId == null)
+            //{
+            //    ticket.TicketStatusId = db.TicketStatuses.Where(t => t.StatusName == "Open").FirstOrDefault().Id;
+            //}
+            //else
+            //{
+            //    ticket.TicketStatusId = db.TicketStatuses.Where(t => t.StatusName == "Assigned").FirstOrDefault().Id;
+            //}
 
             db.SaveChanges();
 

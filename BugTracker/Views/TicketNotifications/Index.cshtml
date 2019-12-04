@@ -19,7 +19,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayName("Recipient")
+                @Html.DisplayName("Created")
             </th>
             @*<th>
                 @Html.DisplayNameFor(model => model.Ticket.SubmitterId)
@@ -34,11 +34,11 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.OrderByDescending(m => m.Created))
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Recipient.FullName)
+                    @Html.DisplayFor(modelItem => item.Created)
                 </td>
                 @*<td>
                     @Html.DisplayFor(modelItem => item.Ticket.Submitter.Email)

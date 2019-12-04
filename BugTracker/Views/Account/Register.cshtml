@@ -34,10 +34,12 @@
                     @using (Html.BeginForm("Register", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <fieldset>
                             @Html.ValidationSummary("", new { @class = "text-danger" })
                             <div class="form-group">
-                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name"})
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name" })
+                                @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
                                 @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name" })
@@ -69,7 +71,11 @@
 </body>
 </html>
 
-<section>
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@
+
+<!-- #region -->
     @*@model BugTracker.Models.RegisterViewModel
         @{
             ViewBag.Title = "Register";
@@ -111,4 +117,4 @@
         @section Scripts {
             @Scripts.Render("~/bundles/jqueryval")
         }*@
-</section>
+<!-- #endregion -->>

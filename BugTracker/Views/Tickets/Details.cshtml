@@ -153,7 +153,7 @@
                                         }
                                     </span>
                                     <div class="chat-body clearfix">
-                                        <div class="header"><strong class="primary-font">@comment.User.DisplayName</strong><small class="text-muted">@comment.Created.ToString("MMM dd, yyyy HH:mm:ss tt")</small></div>
+                                        <div class="header"><strong class="primary-font">@comment.User.DisplayName</strong><small class="text-muted">@comment.Created.ToString("MMM dd, yyyy hh:mm:ss tt")</small></div>
                                         <p>@comment.CommentBody</p>
                                     </div>
                                 </li>
@@ -199,7 +199,7 @@
                                 </div>
                                 <div class="timeline-body">
                                     <a href="@attach.FilePath" target="_blank"><img src="@FileUploadValidator.GetIcon(attach.FilePath)" style="width: 75px; border-radius: 10px" /></a>
-                                    <p>@attach.Created.ToString("MMM dd HH:mm tt")</p>
+                                    <p>@attach.Created.ToString("MMM dd hh:mm tt")</p>
                                 </div>
                             </div>
                         </li>
@@ -273,7 +273,7 @@
                                         </div>
                                         <div class="cold-md-12">
                                             <h3>@attach.UserId</h3>
-                                            <div class="meta">@attach.Created.ToString("MMM dd, yyyy HH:mm:ss tt")</div>
+                                            <div class="meta">@attach.Created.ToString("MMM dd, yyyy hh:mm:ss tt")</div>
                                             <p>@attach.CommentBody</p>
                                         </div>
                                     </li>

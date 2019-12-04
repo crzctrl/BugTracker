@@ -66,8 +66,11 @@ namespace BugTracker.Controllers
         [Authorize(Roles = "Admin, Project_Manager, DemoAdmin, DemoProject_Manager")]
         public ActionResult ManageProjectUsers()
         {
+            var AdminId = db.Users.ToList().Where(u => u.Id == User.Identity.GetUserId());
+
             ViewBag.Projects = new MultiSelectList(db.Projects, "Id", "Name");
-            ViewBag.AdminId = new SelectList(roleHelper.UsersIn2Roles("Admin", "DemoAdmin"), "Id", "FullName");
+            //ViewBag.AdminId = new SelectList(roleHelper.UsersIn2Roles("Admin", "DemoAdmin"), "Id", "FullName");
+            ViewBag.AdminId = new SelectList(AdminId, "Id", "FullName");
             ViewBag.ProjectManagerId = new SelectList(roleHelper.UsersIn2Roles("Project_Manager", "DemoProject_Manager"), "Id", "FullName");
             ViewBag.Developers = new MultiSelectList(roleHelper.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "FullName");
             ViewBag.Submitters = new MultiSelectList(roleHelper.UsersIn2Roles("Submitter", "DemoSubmitter"), "Id", "FullName");

@@ -34,15 +34,17 @@
                     @using (Html.BeginForm("Login", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <fieldset>
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-group">
                                 @*<input class="form-control" placeholder="E-mail" name="Email" type="email" autofocus="">*@
                                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-mail" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
                                 @*<input class="form-control" placeholder="Password" name="Password" type="password" value="">*@
                                 @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                             </div>
                             <div class="checkbox">
                                 <label>
@@ -69,6 +71,10 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
 
 <section>
     @*@using BugTracker.Models
