@@ -171,12 +171,15 @@ namespace BugTracker.Controllers
                     return HttpNotFound();
                 }
             }
-            ViewBag.DeveloperId = new SelectList(rHelp.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "FullName", ticket.DeveloperId);
+            
+            var pId = db.Projects.Where(p => p.Id == ticket.ProjectId).FirstOrDefault().Id;
+            ViewBag.DeveloperId = new SelectList(pHelp.ListUsersOnProjectIn2RolesMKII(pId, "Developer", "DemoDeveloper"), "Id", "FullName", ticket.DeveloperId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.SubmitterId = new SelectList(rHelp.UsersIn2Roles("Submitter", "DemoSubmitter"), "Id", "FullName", ticket.SubmitterId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "StatusName", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "TypeName", ticket.TicketTypeId);
+
             return View(ticket);
         }
 

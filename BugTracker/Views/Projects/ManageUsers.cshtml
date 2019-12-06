@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "ManageUsers";
 }
 
@@ -25,17 +24,11 @@
                     {
                         <div class="row">
                             @Html.AntiForgeryToken()
-                            @Html.Hidden("ProjectId", (int)ViewBag.ProjectId)
+                            @Html.Hidden("ProjectId", (int)ViewBag.ProjectId)                           
 
                             @if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
                             {
                                 <div class="col-md-offset-1 col-md-10">
-                                    @*<div class="checkbox">
-                            <label>
-                                @Html.CheckBox("AdminId") Assign  Thyself
-                            </label>
-                        </div>*@
-
                                     <div class="row">
                                         <h3>Admin</h3>
                                     </div>
@@ -48,6 +41,24 @@
                                     </div>
                                     <div class="row">
                                         @Html.DropDownList("ProjectManagerId", null, "-- Select --", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-offset-1 col-md-10" style="display: none">
+                                    <div class="row">
+                                        <h3>Admin</h3>
+                                    </div>
+                                    <div class="row">
+                                        @Html.DropDownList("AdminId", null, "-- Select --", new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <h3>Project Manager</h3>
+                                    </div>
+                                    <div class="row">
+                                        @Html.DropDownList("ProjectManagerId", null, "-- Select --", new { @class = "form-control", @readonly = "readonly" })
                                     </div>
                                 </div>
                             }

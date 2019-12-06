@@ -24,8 +24,6 @@ namespace BugTracker.Controllers
         public ActionResult ManageUsers(int id)
         {
             ViewBag.ProjectId = id;
-            var AdminId = db.Users.ToList().Where(u => u.Id == User.Identity.GetUserId());
-
 
             #region
             //string currentPM = null;
@@ -59,8 +57,15 @@ namespace BugTracker.Controllers
             //ViewBag.Submitters = new MultiSelectList(roleHelper.UsersInRole("Submitter"), "Id", "Email", projSubs);
             #endregion
 
-            //ViewBag.AdminId = new SelectList(rHelp.UsersIn2Roles("Admin", "DemoAdmin"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles(id, "Admin", "DemoAdmin").FirstOrDefault());
-            ViewBag.AdminId = new SelectList(AdminId, "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles(id, "Admin", "DemoAdmin").FirstOrDefault());
+            var AdminId = db.Users.ToList().Where(u => u.Id == User.Identity.GetUserId());
+            if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
+            {
+                ViewBag.AdminId = new SelectList(AdminId, "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles(id, "Admin", "DemoAdmin").FirstOrDefault());
+            }
+            else
+            {
+                ViewBag.AdminId = new SelectList(rHelp.UsersIn2Roles("Admin", "DemoAdmin"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles(id, "Admin", "DemoAdmin").FirstOrDefault());
+            }
             ViewBag.ProjectManagerId = new SelectList(rHelp.UsersIn2Roles("Project_Manager", "DemoProject_Manager"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles(id, "Project_Manager", "DemoProject_Manager").FirstOrDefault());
             ViewBag.Developers = new MultiSelectList(rHelp.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles(id, "Developer", "DemoDeveloper"));
             ViewBag.Submitters = new MultiSelectList(rHelp.UsersIn2Roles("Submitter", "DemoSubmitter"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles(id, "Submitter", "DemoSubmitter"));

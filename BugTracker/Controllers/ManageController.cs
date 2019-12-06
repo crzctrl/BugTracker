@@ -225,7 +225,6 @@ namespace BugTracker.Controllers
             return View();
         }
 
-
         // POST: /Manage/EditProfile
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -54,6 +54,21 @@
                                     </div>
                                 </div>
                             }
+                            else
+                            {
+                                <div class="row" style="display: none">
+                                    <div class="col-md-12">
+                                        <h4>Admin</h4>
+                                        @Html.DropDownList("AdminId", null, "-- Select --", new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="row" style="display: none">
+                                    <div class="col-md-12">
+                                        <h4>Project Manager</h4>
+                                        @Html.DropDownList("ProjectManagerId", null, "-- Select --", new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            }
                             <div class="row">
                                 <div class="col-md-12">
                                     <h4>Developers</h4>
