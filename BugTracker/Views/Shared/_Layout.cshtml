@@ -182,6 +182,23 @@
             {
                 <li><a href=@Url.Action("ManageRoles", "Admin")><em class="fa fa-user-secret">&nbsp;</em> Manage Roles</a></li>
             }
+            <li class="parent ">
+                <a data-toggle="collapse" href="#sub-item-3">
+                    <em class="fa fa-cog">&nbsp;</em> Settings <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
+                </a>
+                <ul class="children collapse" id="sub-item-3">
+                    <li>
+                        <a class="" href="@Url.Action("EditProfile", "Manage")">
+                            <span class="fa fa-arrow-right">&nbsp;</span> Edit Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="@Url.Action("ChangePassword", "Manage")">
+                            <span class="fa fa-arrow-right">&nbsp;</span> Change Password
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li><a href=@Url.Action("CustomLogOff", "Account")><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
             @if (demo)
             {

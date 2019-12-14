@@ -23,8 +23,6 @@ namespace BugTracker.Controllers
         [Authorize(Roles = "Admin, Project_Manager, DemoAdmin, DemoProject_Manager")]
         public ActionResult ManageUsers(int id)
         {
-            ViewBag.ProjectId = id;
-
             #region
             //string currentPM = null;
             //foreach (var user in pHelp.UsersOnProject(id))
@@ -56,6 +54,7 @@ namespace BugTracker.Controllers
             //}
             //ViewBag.Submitters = new MultiSelectList(roleHelper.UsersInRole("Submitter"), "Id", "Email", projSubs);
             #endregion
+            ViewBag.ProjectId = id;
 
             var AdminId = db.Users.ToList().Where(u => u.Id == User.Identity.GetUserId());
             if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
@@ -111,6 +110,44 @@ namespace BugTracker.Controllers
             return RedirectToAction("ManageUsers", new { id = projectId});
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ManageUsersDetails(int projectId, string adminId, string projectManagerId, List<string> developers, List<string> submitters)
+        {
+            foreach (var user in pHelp.UsersOnProject(projectId).ToList())
+            {
+                pHelp.RemoveUserFromProject(user.Id, projectId);
+            }
+
+            if (!string.IsNullOrEmpty(adminId))
+            {
+                pHelp.AddUserToProject(adminId, projectId);
+            }
+
+            if (!string.IsNullOrEmpty(projectManagerId))
+            {
+                pHelp.AddUserToProject(projectManagerId, projectId);
+            }
+
+            if (developers != null)
+            {
+                foreach (var developerId in developers)
+                {
+                    pHelp.AddUserToProject(developerId, projectId);
+                }
+            }
+
+            if (submitters != null)
+            {
+                foreach (var submitterId in submitters)
+                {
+                    pHelp.AddUserToProject(submitterId, projectId);
+                }
+            }
+
+            return RedirectToAction("Details", new { id = projectId });
+        }
+
         // GET: Projects      
         public ActionResult Index()
         {
@@ -125,19 +162,38 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Project project = db.Projects.Find(id);
-        //    if (project == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(project);
-        //}
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Project project = db.Projects.Find(id);
+            var ticket = db.Tickets.Where(t => t.ProjectId == project.Id).ToList();
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.ProjectId = id;
+
+            var AdminId = db.Users.ToList().Where(u => u.Id == User.Identity.GetUserId());
+            if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
+            {
+                ViewBag.AdminId = new SelectList(AdminId, "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles((int)id, "Admin", "DemoAdmin").FirstOrDefault());
+            }
+            else
+            {
+                ViewBag.AdminId = new SelectList(rHelp.UsersIn2Roles("Admin", "DemoAdmin"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles((int)id, "Admin", "DemoAdmin").FirstOrDefault());
+            }
+            ViewBag.ProjectManagerId = new SelectList(rHelp.UsersIn2Roles("Project_Manager", "DemoProject_Manager"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles((int)id, "Project_Manager", "DemoProject_Manager").FirstOrDefault());
+            ViewBag.Developers = new MultiSelectList(rHelp.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles((int)id, "Developer", "DemoDeveloper"));
+            ViewBag.Submitters = new MultiSelectList(rHelp.UsersIn2Roles("Submitter", "DemoSubmitter"), "Id", "FullName", pHelp.ListUsersOnProjectIn2Roles((int)id, "Submitter", "DemoSubmitter"));
+            var meh = new ProjectDetailsViewModel();
+            meh.Projects = project;
+            meh.TicketList = ticket;
+            return View(meh);
+        }
 
         // GET: Projects/Create
         [Authorize(Roles = "Admin, Project_Manager, DemoAdmin, DemoProject_Manager")]

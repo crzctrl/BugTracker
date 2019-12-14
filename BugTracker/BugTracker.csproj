@@ -213,6 +213,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Avatars\Ace of Diamonds.jpg" />
+    <Content Include="Avatars\DA.jpg" />
+    <Content Include="Avatars\DD.jpg" />
+    <Content Include="Avatars\DP.jpg" />
+    <Content Include="Avatars\DS.jpg" />
     <Content Include="Avatars\Female Mechanic.png" />
     <Content Include="Avatars\Jack of Hearts.jpg" />
     <Content Include="Avatars\King of Hearts.jpg" />

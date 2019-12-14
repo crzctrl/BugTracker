@@ -26,6 +26,10 @@
     /*border-radius: 100%;*/
     width: 100%;
 }
+#pinupsC {
+    border-radius: 100%;
+    width: 75%;
+}
 #bombC {
     font-size: 290px;
     transform: scaleX(-1);

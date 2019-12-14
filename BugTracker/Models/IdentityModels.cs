@@ -33,7 +33,7 @@ namespace BugTracker.Models
         {
             get
             {
-                return $"{FirstName} {LastName}";
+                return $"{FirstName} {LastName} ";
             }
         }
 

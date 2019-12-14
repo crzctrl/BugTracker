@@ -73,7 +73,7 @@ namespace BugTracker.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Login", "Account");
+                return View(model);
             }
 
             // This doesn't count login failures towards account lockout
@@ -90,7 +90,7 @@ namespace BugTracker.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return RedirectToAction("Login", "Account");
+                    return View(model);
             }
         }
 
@@ -192,7 +192,7 @@ namespace BugTracker.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //UserManager.AddToRole(user.Id, "Noob");
+                    UserManager.AddToRole(user.Id, "Rookie");
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -208,7 +208,7 @@ namespace BugTracker.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return RedirectToAction("Register", "Account");
+            return View(model);
         }
 
         //
