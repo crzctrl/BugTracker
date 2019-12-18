@@ -54,12 +54,15 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Updated)
                 </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |*@
-                    @Html.ActionLink("Manage Users", "ManageUsers", "Projects", new { id = item.Id }, null)                    
-                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                        @Html.ActionLink("Manage Users", "ManageUsers", "Projects", new { id = item.Id }, null)*@                    
+                    </td>
+                }
             </tr>
         }
     </tbody>

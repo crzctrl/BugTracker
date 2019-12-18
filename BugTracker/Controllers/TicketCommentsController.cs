@@ -21,12 +21,12 @@ namespace BugTracker.Controllers
         private NotificationHelper nHelp = new NotificationHelper();
 
         // GET: TicketComments
-        public ActionResult Index()
-        {
-            //var ticketComments = db.TicketComments.Include(t => t.Ticket).Include(t => t.User);
-            //return View(ticketComments.ToList());
-            return View(tHelp.ListMyComments());
-        }
+        //public ActionResult Index()
+        //{
+        //    //var ticketComments = db.TicketComments.Include(t => t.Ticket).Include(t => t.User);
+        //    //return View(ticketComments.ToList());
+        //    return View(tHelp.ListMyComments());
+        //}
 
         // GET: TicketComments/Details/5
         //public ActionResult Details(int? id)
@@ -105,20 +105,20 @@ namespace BugTracker.Controllers
         }
 
         // GET: TicketComments/Delete/5
-        [Authorize(Roles = "Admin, Project_Manager, Developer, Submitter")]
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketComment ticketComment = db.TicketComments.Find(id);
-            if (ticketComment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketComment);
-        }
+        //[Authorize(Roles = "Admin, Project_Manager, Developer, Submitter")]
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketComment ticketComment = db.TicketComments.Find(id);
+        //    if (ticketComment == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketComment);
+        //}
 
         // POST: TicketComments/Delete/5
         [HttpPost, ActionName("Delete")]

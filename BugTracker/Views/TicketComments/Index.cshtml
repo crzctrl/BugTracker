@@ -19,7 +19,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayName("Ticket Submitter")
+                @Html.DisplayName("Ticket")
             </th>
             <th>
                 @Html.DisplayName("Created By")
@@ -38,7 +38,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Ticket.Submitter.FullName)
+                    @Html.DisplayFor(modelItem => item.Ticket.Title)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.User.FullName)
@@ -51,8 +51,8 @@
                 </td>
                 <td>
                     @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
-                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Details", "Details", "Tickets", new { id = item.Id }, null)
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                 </td>
             </tr>
         }

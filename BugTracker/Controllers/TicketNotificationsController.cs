@@ -28,6 +28,7 @@ namespace BugTracker.Controllers
         }
         
         // GET: TicketNotifications
+        [Authorize(Roles = "Developer, DemoDeveloper")]
         public ActionResult Index()
         {
             //var ticketNotifications = db.TicketNotifications.Include(t => t.Recipient).Include(t => t.Ticket);

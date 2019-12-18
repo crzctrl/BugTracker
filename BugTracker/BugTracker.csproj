@@ -235,6 +235,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\404.jpg" />
     <Content Include="images\apple-touch-icon.png" />
     <Content Include="images\background.jpg" />
     <Content Include="Avatars\Bob.jpg" />

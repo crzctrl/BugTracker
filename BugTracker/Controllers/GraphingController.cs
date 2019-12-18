@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace BugTracker.Controllers
 {
@@ -16,6 +17,22 @@ namespace BugTracker.Controllers
             var myData = new List<MorrisBarData>();
             MorrisBarData data = null;
             foreach(var priority in db.TicketPriorities.ToList())
+            {
+                data = new MorrisBarData();
+                data.label = priority.PriorityName;
+                data.value = db.Tickets.Where(t => t.TicketPriority.PriorityName == priority.PriorityName).Count();
+                myData.Add(data);
+            }
+
+            return Json(myData);
+        }
+
+        public JsonResult PMTicketPriorityChartData()
+        {
+            var myData = new List<MorrisBarData>();
+            MorrisBarData data = null;
+            var user = User.Identity.GetUserId();
+            foreach (var priority in db.TicketPriorities.ToList())
             {
                 data = new MorrisBarData();
                 data.label = priority.PriorityName;

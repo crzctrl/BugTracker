@@ -19,12 +19,12 @@ namespace BugTracker.Controllers
         private TicketHelper tHelp = new TicketHelper();
 
         // GET: TicketHistories
-        public ActionResult Index()
-        {
-            //var ticketHistories = db.TicketHistories.Include(t => t.Ticket).Include(t => t.User);
-            //return View(ticketHistories.ToList());
-            return View(tHelp.ListMyHistory());
-        }
+        //public ActionResult Index()
+        //{
+        //    //var ticketHistories = db.TicketHistories.Include(t => t.Ticket).Include(t => t.User);
+        //    //return View(ticketHistories.ToList());
+        //    return View(tHelp.ListMyHistory());
+        //}
 
         // GET: TicketHistories/Details/5
         //public ActionResult Details(int? id)

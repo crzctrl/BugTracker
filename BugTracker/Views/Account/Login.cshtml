@@ -69,6 +69,12 @@
 
     <script src="~/Scripts/jquery-1.11.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script>
+        if (performance.navigation.type == 2) {
+            location.reload(true);
+        }
+    </script>
 </body>
 </html>
 

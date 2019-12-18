@@ -12,7 +12,7 @@
             </a>
         </li>
         <li><a href="@Url.Action("Index", "Tickets")">Tickets</a></li>
-        <li class="active">Edit</li>
+        <li class="active">@Html.DisplayFor(m => m.Title)</li>
     </ol>
 </div>
 
@@ -32,11 +32,10 @@
                             @Html.HiddenFor(m => m.Id)
                             @Html.HiddenFor(m => m.ProjectId)
                             @Html.HiddenFor(m => m.SubmitterId)
-                            @if (!User.IsInRole("Project_Manager") || !User.IsInRole("DemoProject_Manager"))
+                            @*@if (!User.IsInRole("Project_Manager") || !User.IsInRole("DemoProject_Manager"))
                             {
                                 @Html.HiddenFor(m => m.DeveloperId)
-                            }
-
+                            }*@
                             @Html.HiddenFor(m => m.Created)
 
                             @*<div class="form-group">
@@ -97,7 +96,7 @@
                                 <div class="form-group">
                                     <div class="col-md-offset-1 col-md-10">
                                         <label>Developer</label>
-                                        @Html.DropDownList("DeveloperId", null, "-- Select --", htmlAttributes: new { @class = "form-control", placeholder = "" })
+                                        @Html.DropDownList("DeveloperId", null, "-- Select --", htmlAttributes: new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.DeveloperId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -107,7 +106,7 @@
                                 <div class="form-group">
                                     <div class="col-md-offset-1 col-md-10">
                                         <label>Developer</label>
-                                        @Html.DropDownList("DeveloperId", null, "-- Select --", htmlAttributes: new { @class = "form-control", name = "disabled", disabled = "disabled" })
+                                        @Html.DropDownList("DeveloperId", null, "-- Select --", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.DeveloperId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

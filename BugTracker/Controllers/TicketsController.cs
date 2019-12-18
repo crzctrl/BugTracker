@@ -31,28 +31,28 @@ namespace BugTracker.Controllers
             return View(tHelp.ListMyTickets());
         }
 
-        [Authorize(Roles = "Developer, DemoDeveloper")]
+        [Authorize(Roles = "Admin, Developer, Submitter, DemoAdmin, DemoDeveloper, DemoSubmitter")]
         public ActionResult ProjectTicketsIndex()
         {
             var myTickets = new List<Ticket>();
             var userId = User.Identity.GetUserId();
             var user = db.Users.Find(userId);
-            var myRole = rHelp.ListUserRoles(userId).FirstOrDefault();
+            //var myRole = rHelp.ListUserRoles(userId).FirstOrDefault();
 
-            if(myRole == "Developer" || myRole == "DemoDeveloper")
-            {
-                myTickets.AddRange(user.Projects.SelectMany(p => p.Tickets));
-            }
-
+            //if(myRole == "Developer" || myRole == "DemoDeveloper")
+            //{
+            //    myTickets.AddRange(user.Projects.SelectMany(p => p.Tickets));
+            //}
+            myTickets.AddRange(user.Projects.SelectMany(p => p.Tickets));
             return View(myTickets);
         }
 
-        [Authorize(Roles = "Admin, Project_Manager, Developer, Submitter, DemoAdmin, DemoProject_Manager, DemoDeveloper, DemoSubmitter")]
-        public ActionResult AllTicketsIndex()
-        {
-            var tickets = db.Tickets.Include(t => t.Developer).Include(t => t.Project).Include(t => t.Submitter).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
-            return View(tickets.ToList());
-        }
+        //[Authorize(Roles = "Admin, Project_Manager, Developer, Submitter, DemoAdmin, DemoProject_Manager, DemoDeveloper, DemoSubmitter")]
+        //public ActionResult AllTicketsIndex()
+        //{
+        //    var tickets = db.Tickets.Include(t => t.Developer).Include(t => t.Project).Include(t => t.Submitter).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+        //    return View(tickets.ToList());
+        //}
 
         // GET: Tickets/Details/5
         [Authorize(Roles = "Admin, Project_Manager, Developer, Submitter, DemoAdmin, DemoProject_Manager, DemoDeveloper, DemoSubmitter")]
@@ -72,7 +72,7 @@ namespace BugTracker.Controllers
             {
                 if (ticket.SubmitterId != User.Identity.GetUserId())
                 {
-                    return HttpNotFound();
+                    return View("Error");
                 }
             }
             var dev = rHelp.IsUserInRole(User.Identity.GetUserId(), "Developer") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoDeveloper");
@@ -80,7 +80,7 @@ namespace BugTracker.Controllers
             {
                 if (ticket.DeveloperId != User.Identity.GetUserId())
                 {
-                    return HttpNotFound();
+                    return View("Error");
                 }
             }
             var pm = rHelp.IsUserInRole(User.Identity.GetUserId(), "Project_Manager") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoProject_Manager");
@@ -88,7 +88,7 @@ namespace BugTracker.Controllers
             {
                 if (!pHelp.IsUserOnProject(User.Identity.GetUserId(), ticket.ProjectId))
                 {
-                    return HttpNotFound();
+                    return View("Error");
                 }
             }
             return View(ticket);
@@ -151,7 +151,7 @@ namespace BugTracker.Controllers
             {
                 if (ticket.SubmitterId != User.Identity.GetUserId())
                 {
-                    return HttpNotFound();
+                    return View("Error");
                 }
             }
             var dev = rHelp.IsUserInRole(User.Identity.GetUserId(), "Developer") || rHelp.IsUserInRole(User.Identity.GetUserId(), "DemoDeveloper");
@@ -159,7 +159,7 @@ namespace BugTracker.Controllers
             {
                 if (ticket.DeveloperId != User.Identity.GetUserId())
                 {
-                    return HttpNotFound();
+                    return View("Error");
                 }
             }
             //db.Projects.Find(ticketid)
@@ -168,12 +168,16 @@ namespace BugTracker.Controllers
             {
                 if (!pHelp.IsUserOnProject(User.Identity.GetUserId(), ticket.ProjectId))
                 {
-                    return HttpNotFound();
+                    return View("Error");
                 }
             }
-            
-            var pId = db.Projects.Where(p => p.Id == ticket.ProjectId).FirstOrDefault().Id;
-            ViewBag.DeveloperId = new SelectList(pHelp.ListUsersOnProjectIn2RolesMKII(pId, "Developer", "DemoDeveloper"), "Id", "FullName", ticket.DeveloperId);
+
+            //var pj = db.Projects.Where(p => p.Id == ticket.ProjectId).FirstOrDefault();
+            var pj = db.Projects.FirstOrDefault(p => p.Id == ticket.ProjectId);
+            var meh = pHelp.ListUsersOnProjectIn2RolesMKII(pj.Id, "Developer", "DemoDeveloper");
+            ViewBag.DeveloperId = new SelectList(pHelp.ListUsersOnProjectIn2RolesMKII(pj.Id, "Developer", "DemoDeveloper"), "Id", "FullName", ticket.DeveloperId);
+            //ViewBag.DeveloperId = new SelectList(rHelp.UsersIn2Roles("Developer", "DemoDeveloper"), "Id", "FullName", ticket.DeveloperId);
+            //ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", ticket.DeveloperId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.SubmitterId = new SelectList(rHelp.UsersIn2Roles("Submitter", "DemoSubmitter"), "Id", "FullName", ticket.SubmitterId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
@@ -199,7 +203,6 @@ namespace BugTracker.Controllers
                 db.SaveChanges();
 
                 var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
-
                 hHelp.RecordHistoricalChanges(oldTicket, newTicket);
                 nHelp.ManageNotifications(oldTicket, newTicket);
                 await AssignTicket(ticket);

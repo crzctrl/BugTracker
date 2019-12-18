@@ -6,6 +6,8 @@
     var db = new ApplicationDbContext();
     var tHelp = new TicketHelper();
     var pHelp = new ProjectsHelper();
+    var rHelp = new RoleHelper();
+    var ppl = db.Users.Find(User.Identity.GetUserId());
 }
 
 <div class="row">
@@ -19,7 +21,7 @@
     </ol>
 </div>
 <br />
-@if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin") || User.IsInRole("Project_Manager") || User.IsInRole("DemoProject_Manager"))
+@if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
 {
     <div class="panel panel-container">
         <div class="row">
@@ -46,22 +48,74 @@
                 </a>
             </div>
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <a href="@Url.Action("Index", "Tickets")">
+                <a href="@Url.Action("ManageRoles", "Admin")">
                     <div class="panel panel-blue panel-widget border-right">
                         <div class="row no-padding">
                             <em class="fa fa-xl fa-exclamation-circle color-red"></em>
-                            <div class="large">@db.Tickets.Where(t => t.DeveloperId == null).Count()</div>
-                            <div class="text-muted">Unassigned Tickets</div>
+                            <div class="large">@rHelp.UsersInRole("Rookie").Count()</div>
+                            <div class="text-muted">New Users</div>
                         </div>
                     </div>
                 </a>
             </div>
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <a href="@Url.Action("AllTicketsIndex", "Tickets")">
+                <a href="@Url.Action("Index", "Tickets")">
                     <div class="panel panel-orange panel-widget">
                         <div class="row no-padding">
                             <em class="fa fa-xl fa-ticket color-teal"></em>
                             <div class="large">@db.Tickets.Count()</div>
+                            <div class="text-muted">Tickets</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+}
+@if (User.IsInRole("Project_Manager") || User.IsInRole("DemoProject_Manager"))
+{
+    <div class="panel panel-container">
+        <div class="row">
+            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <a href="@Url.Action("Create", "Projects")">
+                    <div class="panel panel-teal panel-widget border-right">
+                        <div class="row no-padding">
+                            <em class="fa fa-xl fa-plus-square color-blue" style="font-size: 68px"></em>
+                            <div class="large"></div><br />
+                            <div class="text-muted">Create New Project</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <a href="@Url.Action("AllProjectsIndex", "Projects")">
+                    <div class="panel panel-teal panel-widget border-right">
+                        <div class="row no-padding">
+                            <em class="fa fa-xl fa-folder-open color-orange"></em>
+                            <div class="large">@db.Projects.Count()</div>
+                            <div class="text-muted">Projects</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                    <a href="@Url.Action("Index", "Tickets")">
+                        <div class="panel panel-blue panel-widget border-right">
+                            <div class="row no-padding">
+                                <em class="fa fa-xl fa-exclamation-circle color-red"></em>
+                                @*<div class="large">@db.Tickets.Where(t => t.DeveloperId == null).Count()</div>*@
+                                <div class="large">@tHelp.ListMyProjectTickets().Where(t => t.DeveloperId == null).Count()</div>
+                                <div class="text-muted">Unassigned Tickets</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <a href="@Url.Action("Index", "Tickets")">
+                    <div class="panel panel-orange panel-widget">
+                        <div class="row no-padding">
+                            <em class="fa fa-xl fa-ticket color-teal"></em>
+                            <div class="large">@tHelp.ListMyTickets().Count()</div>
                             <div class="text-muted">Tickets</div>
                         </div>
                     </div>
@@ -86,12 +140,12 @@
                 </a>
             </div>
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <a href="@Url.Action("AllTicketsIndex", "Tickets")">
+                <a href="@Url.Action("ProjectTicketsIndex", "Tickets")">
                     <div class="panel panel-blue panel-widget border-right">
                         <div class="row no-padding">
                             <em class="fa fa-xl fa-ticket color-orange"></em>
-                            <div class="large">@db.Tickets.Count()</div>
-                            <div class="text-muted">Tickets</div>
+                            <div class="large">@tHelp.ListMyProjectTickets().Count()</div>
+                            <div class="text-muted">Project Tickets</div>
                         </div>
                     </div>
                 </a>
@@ -148,12 +202,12 @@
                 </a>
             </div>
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <a href="@Url.Action("AllTicketsIndex", "Tickets")">
+                <a href="@Url.Action("ProjectTicketsIndex", "Tickets")">
                     <div class="panel panel-teal panel-widget border-right">
                         <div class="row no-padding">
                             <em class="fa fa-xl fa-ticket color-orange"></em>
-                            <div class="large">@db.Tickets.Count()</div>
-                            <div class="text-muted">Tickets</div>
+                            <div class="large">@tHelp.ListMyProjectTickets().Count()</div>
+                            <div class="text-muted">Project Tickets</div>
                         </div>
                     </div>
                 </a>
@@ -583,7 +637,7 @@
 <!-- #endregion -->
 <div class="row">
     <div class="col-sm-12">
-        <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
+        <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a> Modified by <a href="https://christopherli.azurewebsites.net">Christopher Li</a></p>
     </div>
 </div>
 @section scripts {

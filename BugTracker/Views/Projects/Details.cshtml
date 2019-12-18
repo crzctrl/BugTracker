@@ -6,6 +6,8 @@
     ViewBag.Title = "Details";
     var db = new ApplicationDbContext();
     var pHelp = new ProjectsHelper();
+    var currAdmin = pHelp.ListUsersOnProjectIn2RolesMKII(Model.Projects.Id, "Admin", "DemoAdmin").FirstOrDefault();
+    var currPM = pHelp.ListUsersOnProjectIn2RolesMKII(Model.Projects.Id, "Project_Manager", "DemoProject_Manager").FirstOrDefault();
     var listDeveloper = pHelp.ListUsersOnProjectIn2RolesMKII(Model.Projects.Id, "Developer", "DemoDeveloper");
     var listSubmitter = pHelp.ListUsersOnProjectIn2RolesMKII(Model.Projects.Id, "Submitter", "DemoSubmitter");
 }
@@ -18,11 +20,11 @@
             </a>
         </li>
         <li><a href="@Url.Action("Index", "Projects")">Projects</a></li>
-        <li class="active">Details</li>
+        <li class="active">@Html.DisplayFor(m => m.Projects.Name)</li>
     </ol>
 </div>
 <br />
-
+<!-- #region list of users -->
 <div class="row">
     <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
         <div class="panel panel-default panel-widget">
@@ -30,7 +32,10 @@
                 <h4>The Admin</h4>
                 <img src="~/Avatars/DA.jpg" id="pinupsC" />
                 <h6 style="white-space: normal">
-                    @pHelp.ListUsersOnProjectIn2RolesMKII(Model.Projects.Id, "Admin", "DemoAdmin").FirstOrDefault().FullName
+                    @if (currAdmin != null)
+                    {
+                        @currAdmin.FullName
+                    }
                 </h6>
             </div>
         </div>
@@ -41,7 +46,10 @@
                 <h4>Project Manager</h4>
                 <img src="~/Avatars/DP.jpg" id="pinupsC" />
                 <h6 style="white-space: normal">
-                    @pHelp.ListUsersOnProjectIn2RolesMKII(Model.Projects.Id, "Project_Manager", "DemoProject_Manager").FirstOrDefault().FullName
+                    @if (currPM != null)
+                    {
+                        @currPM.FullName
+                    }
                 </h6>
             </div>
         </div>
@@ -75,7 +83,9 @@
         </div>
     </div>
 </div>
+<!-- #endregion -->
 
+<!-- #region project details -->
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
@@ -114,145 +124,204 @@
             @if (User.IsInRole("Admin") || User.IsInRole("Project_Manager") || User.IsInRole("DemoAdmin") || User.IsInRole("DemoProject_Manager"))
             {
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.Projects.Id }) |
-                    @Html.ActionLink("Manage Users", "ManageUsers", "Projects", new { id = Model.Projects.Id }, null)
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Projects.Id })
+                    @*@Html.ActionLink("Manage Users", "ManageUsers", "Projects", new { id = Model.Projects.Id }, null)*@
                 </td>
             }
         </tr>
     </tbody>
 </table>
+<!-- #endregion -->
 <br />
 <br />
+<!-- #region detail guts -->
 <div class="row">
-    <div class="col-md-4" style="padding-top: 57px">
-        <div class="row">
-            <div class=" col-md-12">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        Manage Users
-                        <span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
-                    </div>
-                    <div class="panel-body">
-                        <div class="col-md-12">
-                            @using (Html.BeginForm("ManageUsersDetails", "Projects", FormMethod.Post))
-                            {
-                                <div class="row">
-                                    @Html.AntiForgeryToken()
-                                    @Html.Hidden("ProjectId", (int)ViewBag.ProjectId)
+    @if (User.IsInRole("Admin") || User.IsInRole("Project_Manager") || User.IsInRole("DemoAdmin") || User.IsInRole("DemoProject_Manager"))
+    {
+        <div class="col-md-4" style="padding-top: 57px">
+            <div class="row">
+                <div class=" col-md-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Manage Users
+                            <span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                @using (Html.BeginForm("ManageUsersDetails", "Projects", FormMethod.Post))
+                                {
+                                    <div class="row">
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("ProjectId", (int)ViewBag.ProjectId)
 
-                                    @if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
-                                    {
+                                        @if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
+                                        {
+                                            <div class="col-md-offset-1 col-md-10">
+                                                <div class="row">
+                                                    <h3>Admin</h3>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.DropDownList("AdminId", null, "-- Select --", new { @class = "form-control" })
+                                                </div>
+
+                                                <div class="row">
+                                                    <h3>Project Manager</h3>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.DropDownList("ProjectManagerId", null, "-- Select --", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-offset-1 col-md-10" style="display: none">
+                                                <div class="row">
+                                                    <h3>Admin</h3>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.DropDownList("AdminId", null, "-- Select --", new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+
+                                                <div class="row">
+                                                    <h3>Project Manager</h3>
+                                                </div>
+                                                <div class="row">
+                                                    @Html.DropDownList("ProjectManagerId", null, "-- Select --", new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        }
                                         <div class="col-md-offset-1 col-md-10">
                                             <div class="row">
-                                                <h3>Admin</h3>
+                                                <h3>Developers</h3>
                                             </div>
                                             <div class="row">
-                                                @Html.DropDownList("AdminId", null, "-- Select --", new { @class = "form-control" })
-                                            </div>
-
-                                            <div class="row">
-                                                <h3>Project Manager</h3>
-                                            </div>
-                                            <div class="row">
-                                                @Html.DropDownList("ProjectManagerId", null, "-- Select --", new { @class = "form-control" })
+                                                @Html.ListBox("Developers", null, new { @class = "form-control" })
                                             </div>
                                         </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="col-md-offset-1 col-md-10" style="display: none">
+                                        <div class="col-md-offset-1 col-md-10">
                                             <div class="row">
-                                                <h3>Admin</h3>
+                                                <h3>Submitters</h3>
                                             </div>
                                             <div class="row">
-                                                @Html.DropDownList("AdminId", null, "-- Select --", new { @class = "form-control", @readonly = "readonly" })
-                                            </div>
-
-                                            <div class="row">
-                                                <h3>Project Manager</h3>
-                                            </div>
-                                            <div class="row">
-                                                @Html.DropDownList("ProjectManagerId", null, "-- Select --", new { @class = "form-control", @readonly = "readonly" })
+                                                @Html.ListBox("Submitters", null, new { @class = "form-control" })
                                             </div>
                                         </div>
-                                    }
-                                    <div class="col-md-offset-1 col-md-10">
-                                        <div class="row">
-                                            <h3>Developers</h3>
-                                        </div>
-                                        <div class="row">
-                                            @Html.ListBox("Developers", null, new { @class = "form-control" })
+                                        <div class="col-md-offset-2 col-md-8">
+                                            <br />
+                                            <div class="row">
+                                                <button type="submit" class="btn btn-primary bigbtn">Assign</button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-offset-1 col-md-10">
-                                        <div class="row">
-                                            <h3>Submitters</h3>
-                                        </div>
-                                        <div class="row">
-                                            @Html.ListBox("Submitters", null, new { @class = "form-control" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-8">
-                                        <br />
-                                        <div class="row">
-                                            <button type="submit" class="btn btn-primary bigbtn">Assign</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-8">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Tickets.Title)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Tickets.Description)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Tickets.TicketPriority)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Tickets.TicketType)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var ticket in Model.TicketList)
-                {
+        <div class="col-md-8">
+            <table class="table table-striped table-bordered">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(model => ticket.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => ticket.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => ticket.TicketPriority.PriorityName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => ticket.TicketType.TypeName)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Details", "Details", "Tickets", new { id = ticket.Id }, null)
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tickets.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tickets.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tickets.TicketPriority)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tickets.TicketType)
+                        </th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach (var ticket in Model.TicketList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => ticket.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => ticket.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => ticket.TicketPriority.PriorityName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => ticket.TicketType.TypeName)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", "Tickets", new { id = ticket.Id }, null)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-offset-1 col-md-10">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tickets.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tickets.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tickets.TicketPriority)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tickets.TicketType)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ticket in Model.TicketList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => ticket.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => ticket.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => ticket.TicketPriority.PriorityName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => ticket.TicketType.TypeName)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", "Tickets", new { id = ticket.Id }, null)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            <p>
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        </div>
+    }
 </div>
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<!-- #endregion -->
+@if (User.IsInRole("Admin") || User.IsInRole("Project_Manager") || User.IsInRole("DemoAdmin") || User.IsInRole("DemoProject_Manager"))
+{
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
 
 <!-- #region Old -->
 @*<h2>Details</h2>

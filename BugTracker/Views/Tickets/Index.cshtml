@@ -19,21 +19,18 @@
 {
     <p>
         @Html.ActionLink("Create New", "Create") |
-        @Html.ActionLink("View All Tickets", "AllTicketsIndex")
+        @Html.ActionLink("View Project Tickets", "ProjectTicketsIndex")
     </p>
 }
-else if (User.IsInRole("Developer") || User.IsInRole("DemoDeveloper"))
+else if (User.IsInRole("Admin") || User.IsInRole("Developer") || User.IsInRole("DemoAdmin") ||User.IsInRole("DemoDeveloper"))
 {
     <p>
-        @Html.ActionLink("View Project Tickets", "ProjectTicketsIndex") |
-        @Html.ActionLink("View All Tickets", "AllTicketsIndex")
+        @Html.ActionLink("View Project Tickets", "ProjectTicketsIndex")
     </p>
 }
-else
+else if (User.IsInRole("Project_Manager") || User.IsInRole("DemoProject_Manager"))
 {
-    <p>
-        @Html.ActionLink("View All Tickets", "AllTicketsIndex")
-    </p>
+
 }
 
 <table class="table table-striped table-bordered">

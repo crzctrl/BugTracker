@@ -47,6 +47,15 @@ namespace BugTracker.Helpers
             return myTickets;
         }
 
+        public List<Ticket> ListMyProjectTickets()
+        {
+            var myTickets = new List<Ticket>();
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            myTickets.AddRange(user.Projects.SelectMany(p => p.Tickets));
+            return myTickets;
+        }
+
         public List<TicketComment> ListMyComments()
         {
             var myComments = new List<TicketComment>();

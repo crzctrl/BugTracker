@@ -22,12 +22,12 @@ namespace BugTracker.Controllers
         private NotificationHelper nHelp = new NotificationHelper();
 
         // GET: TicketAttachments
-        public ActionResult Index()
-        {
-            //var ticketAttachments = db.TicketAttachments.Include(t => t.Ticket).Include(t => t.User);
-            //return View(ticketAttachments.ToList());
-            return View(tHelp.ListMyAttachments());
-        }
+        //public ActionResult Index()
+        //{
+        //    //var ticketAttachments = db.TicketAttachments.Include(t => t.Ticket).Include(t => t.User);
+        //    //return View(ticketAttachments.ToList());
+        //    return View(tHelp.ListMyAttachments());
+        //}
 
         // GET: TicketAttachments/Details/5
         //public ActionResult Details(int? id)
@@ -123,20 +123,20 @@ namespace BugTracker.Controllers
         }
 
         // GET: TicketAttachments/Delete/5
-        [Authorize(Roles = "Admin, Project_Manager, Developer, Submitter")]
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);
-            if (ticketAttachment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticketAttachment);
-        }
+        //[Authorize(Roles = "Admin, Project_Manager, Developer, Submitter")]
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);
+        //    if (ticketAttachment == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(ticketAttachment);
+        //}
 
         // POST: TicketAttachments/Delete/5
         [HttpPost, ActionName("Delete")]

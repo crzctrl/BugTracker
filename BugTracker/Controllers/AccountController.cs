@@ -71,6 +71,11 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -105,6 +110,11 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DemoLoginAsync(string emailKey)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            }
+
             var email = WebConfigurationManager.AppSettings[emailKey];
             var password = WebConfigurationManager.AppSettings["demoPW"];
 
@@ -198,7 +208,7 @@ namespace BugTracker.Controllers
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
                     //await UserManager.SendEmailAsync(user.Id, "Confirm your account", $"Please confirm your account by clicking <a href=\"{callbackUrl}\">here</a>");
                     await EmailHelper.ComposeConfirmEmailAsync(model, callbackUrl);
                     

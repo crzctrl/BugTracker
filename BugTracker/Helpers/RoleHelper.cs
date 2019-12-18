@@ -69,9 +69,20 @@ namespace BugTracker.Helpers
                 if (!IsUserInRole(user.Id, roleName))
                     resultList.Add(user);
             }
-
+            
             return resultList;
         }
+
+        //public List<string> MainRoles()
+        //{
+        //    var rList = new List<string>();
+        //    var roles = db.Roles.Where(r => r.Name != "Rookie").ToList();
+        //    foreach (var r in roles)
+        //    {
+        //        rList.Add(r.ToString());
+        //    }
+        //    return rList;
+        //}
 
         //public bool isDemoUser(string userId)
         //{
