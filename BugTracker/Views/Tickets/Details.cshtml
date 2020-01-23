@@ -18,289 +18,291 @@
     </ol>
 </div>
 <br />
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayName("Priority")
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Developer)
-            </th>
-            <th>
-                @Html.DisplayName("Project")
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Submitter)
-            </th>
-            <th>
-                @Html.DisplayName("Status")
-            </th>
-            <th>
-                @Html.DisplayName("Type")
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Updated)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                @Html.DisplayFor(model => model.TicketPriority.PriorityName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.Developer.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.Project.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.Submitter.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.TicketStatus.StatusName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.TicketType.TypeName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.Created)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.Updated)
-            </td>
-        </tr>
-    </tbody>
-</table>
-<br />
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Priority")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Developer)
+                </th>
+                <th>
+                    @Html.DisplayName("Project")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Submitter)
+                </th>
+                <th>
+                    @Html.DisplayName("Status")
+                </th>
+                <th>
+                    @Html.DisplayName("Type")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Created)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Updated)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.TicketPriority.PriorityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Developer.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Project.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Submitter.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.TicketStatus.StatusName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.TicketType.TypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Updated)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+    <br />
 
-@*<div class="ticket">
-        <div class="stub">
-            <div class="top">
-                <span class="admit">Admit</span>
-                <span class="line"></span>
-                <span class="num">
-                    Invitation
-                    <span>31415926</span>
-                </span>
-            </div>
-            <div class="number">@Html.DisplayFor(model => model.Id)</div>
-            <div class="invite">
-                Invite for you
-            </div>
-        </div>
-        <div class="check">
-            <div class="big">
-                @Html.DisplayFor(model => model.Title)
-            </div>
-            <br>@Html.DisplayFor(model => model.Description)
-            <div class="number">#@Html.DisplayFor(model => model.Id)</div>
-            <div class="info">
-                <section>
-                    <div class="title">Date</div>
-                    <div>@Html.DisplayFor(model => model.Created)</div>
-                </section>
-                <section>
-                    <div class="title">Issued By</div>
-                    <div>@Html.DisplayFor(model => model.Submitter.FullName)</div>
-                </section>
-                <section>
-                    <div class="title">Invite Number</div>
-                    <div>31415926</div>
-                </section>
-            </div>
-        </div>
-    </div>*@
-
-<div class="row">
-    <div class="col-md-4">
-        <div class="panel panel-primary chat" id="minraise">
-            <div class="panel-heading">
-                Comments
-                <span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
-            </div>
-            <div class="panel-body" style="height: 350px">
-                <div class="row">
-                    <div class="col-md-12">
-                        <ul>
-                            @foreach (var comment in Model.TicketComments.OrderByDescending(c => c.Created))
-                            {
-                                <li class="left clearfix">
-                                    <span class="chat-img pull-left">
-                                        @if (comment.User.AvatarPath == null)
-                                        {
-                                            <img src="https://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle" />
-                                        }
-                                        else
-                                        {
-                                            <img src="@comment.User.AvatarPath" alt="User Avatar" class="img-circle" />
-                                        }
-                                    </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header"><strong class="primary-font">@comment.User.DisplayName</strong><small class="text-muted">@comment.Created.ToString("MMM dd, yyyy hh:mm:ss tt")</small></div>
-                                        <p>@comment.CommentBody</p>
-                                    </div>
-                                </li>
-                            }
-                        </ul>
-                    </div>
+    @*<div class="ticket">
+            <div class="stub">
+                <div class="top">
+                    <span class="admit">Admit</span>
+                    <span class="line"></span>
+                    <span class="num">
+                        Invitation
+                        <span>31415926</span>
+                    </span>
+                </div>
+                <div class="number">@Html.DisplayFor(model => model.Id)</div>
+                <div class="invite">
+                    Invite for you
                 </div>
             </div>
-            <br />
-            <div class="panel-footer">
-                @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("TicketId", Model.Id)
+            <div class="check">
+                <div class="big">
+                    @Html.DisplayFor(model => model.Title)
+                </div>
+                <br>@Html.DisplayFor(model => model.Description)
+                <div class="number">#@Html.DisplayFor(model => model.Id)</div>
+                <div class="info">
+                    <section>
+                        <div class="title">Date</div>
+                        <div>@Html.DisplayFor(model => model.Created)</div>
+                    </section>
+                    <section>
+                        <div class="title">Issued By</div>
+                        <div>@Html.DisplayFor(model => model.Submitter.FullName)</div>
+                    </section>
+                    <section>
+                        <div class="title">Invite Number</div>
+                        <div>31415926</div>
+                    </section>
+                </div>
+            </div>
+        </div>*@
 
-                    <div class="input-group">
-                        @*<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." />*@
-                        @Html.TextBox("CommentBody", null, new { @class = "form-control input-md" })
-                        @Html.ValidationMessage("CommentBody", null, new { @class = "text-danger" })
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary btn-md" id="btn-chat">Post Comment</button>
-                        </span>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-primary chat" id="minraise">
-            <div class="panel-heading">
-                Attachments
-                <span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
-            </div>
-            <div class="panel-body timeline-container" style="height: 383px">
-                <ul class="timeline">
-                    @foreach (var attach in Model.TicketAttachments.OrderByDescending(a => a.Created))
-                    {
-                        <li>
-                            <div class="timeline-badge"><em class="glyphicon glyphicon-paperclip"></em></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h6 class="timeline-title">@attach.User.FullName</h6>
-                                </div>
-                                <div class="timeline-body">
-                                    <a href="@attach.FilePath" target="_blank"><img src="@FileUploadValidator.GetIcon(attach.FilePath)" style="width: 75px; border-radius: 10px" /></a>
-                                    <p>@attach.Created.ToString("MMM dd hh:mm tt")</p>
-                                </div>
-                            </div>
-                        </li>
-                    }
-                </ul>
-            </div>
-            <div class="panel-footer">
-                @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("TicketId", Model.Id)
-
-                    <div class="input-group">
-                        <div class="col-md-7">
-                            @Html.TextBox("Attach", null, new { type = "file", style = "padding-top: 5px" })
-                        </div>
-                        <div class="col-md-5">
-                            <button class="btn btn-primary" style="float: left">Add Attachment</button>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-primary chat" id="minraise">
-            <div class="panel-heading">
-                History
-                <span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
-            </div>
-            <div class="panel-body articles-container" style="height: 439px">
-                @foreach (var history in Model.TicketHistories.OrderByDescending(h => h.Changed))
-                {
-                    <div class="article border-bottom">
-                        <div class="col-xs-12">
-                            <div class="row">
-                                <div class="col-xs-2 col-md-2 date">
-                                    <div class="large">@history.Changed.ToString("dd")</div>
-                                    <div class="text-muted">@history.Changed.ToString("MMM")</div>
-                                </div>
-                                <div class="col-xs-10 col-md-10">
-                                    <h4>@history.Property</h4>
-                                    <p>@history.NewValue</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-</div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-<!-- #region -->
-@*<div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Comments</div>
-                <div class="panel-body">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-primary chat" id="minraise">
+                <div class="panel-heading">
+                    Comments
+                    <span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
+                </div>
+                <div class="panel-body" style="height: 350px">
                     <div class="row">
                         <div class="col-md-12">
-                            @foreach (var attach in Model.TicketAttachments.OrderByDescending(c => c.Created))
-                            {
-                                <ul>
-                                    <li>
-                                        <div class="col-md-12">
-                                            <img src="@User." alt="Image placeholder">
-                                        </div>
-                                        <div class="cold-md-12">
-                                            <h3>@attach.UserId</h3>
-                                            <div class="meta">@attach.Created.ToString("MMM dd, yyyy hh:mm:ss tt")</div>
-                                            <p>@attach.CommentBody</p>
+                            <ul>
+                                @foreach (var comment in Model.TicketComments.OrderByDescending(c => c.Created))
+                                {
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                            @if (comment.User.AvatarPath == null)
+                                            {
+                                                <img src="https://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle" />
+                                            }
+                                            else
+                                            {
+                                                <img src="@comment.User.AvatarPath" alt="User Avatar" class="img-circle" />
+                                            }
+                                        </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header"><strong class="primary-font">@comment.User.DisplayName</strong><small class="text-muted">@comment.Created.ToString("MMM dd, yyyy hh:mm:ss tt")</small></div>
+                                            <p>@comment.CommentBody</p>
                                         </div>
                                     </li>
-                                </ul>
-                            }
+                                }
+                            </ul>
                         </div>
                     </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-md-12">
-                            @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
-                            {
-                                @Html.AntiForgeryToken()
-                                @Html.Hidden("TicketId", Model.Id)
+                </div>
+                <br />
+                <div class="panel-footer">
+                    @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("TicketId", Model.Id)
 
-                                <div class="form-group">
-                                    <label for="message">Message</label>
-                                    @Html.TextArea("CommentBody", new { @class = "form-control", rows = 5 })
+                        <div class="input-group">
+                            @*<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." />*@
+                            @Html.TextBox("CommentBody", null, new { @class = "form-control input-md" })
+                            @Html.ValidationMessage("CommentBody", null, new { @class = "text-danger" })
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary btn-md" id="btn-chat">Post Comment</button>
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary chat" id="minraise">
+                <div class="panel-heading">
+                    Attachments
+                    <span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
+                </div>
+                <div class="panel-body timeline-container" style="height: 383px">
+                    <ul class="timeline">
+                        @foreach (var attach in Model.TicketAttachments.OrderByDescending(a => a.Created))
+                        {
+                            <li>
+                                <div class="timeline-badge"><em class="glyphicon glyphicon-paperclip"></em></div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h6 class="timeline-title">@attach.User.FullName</h6>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <a href="@attach.FilePath" target="_blank"><img src="@FileUploadValidator.GetIcon(attach.FilePath)" style="width: 75px; border-radius: 10px" /></a>
+                                        <p>@attach.Created.ToString("MMM dd hh:mm tt")</p>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("TicketId", Model.Id)
+
+                        <div class="input-group">
+                            <div class="col-md-7">
+                                @Html.TextBox("Attach", null, new { type = "file", style = "padding-top: 5px" })
+                            </div>
+                            <div class="col-md-5">
+                                <button class="btn btn-primary" style="float: left">Add Attachment</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary chat" id="minraise">
+                <div class="panel-heading">
+                    History
+                    <span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
+                </div>
+                <div class="panel-body articles-container" style="height: 439px">
+                    @foreach (var history in Model.TicketHistories.OrderByDescending(h => h.Changed))
+                    {
+                        <div class="article border-bottom">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-2 col-md-2 date">
+                                        <div class="large">@history.Changed.ToString("dd")</div>
+                                        <div class="text-muted">@history.Changed.ToString("MMM")</div>
+                                    </div>
+                                    <div class="col-xs-10 col-md-10">
+                                        <h4>@history.Property</h4>
+                                        <p>@history.NewValue</p>
+                                    </div>
                                 </div>
-                            }
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+    <!-- #region -->
+    @*<div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Comments</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @foreach (var attach in Model.TicketAttachments.OrderByDescending(c => c.Created))
+                                {
+                                    <ul>
+                                        <li>
+                                            <div class="col-md-12">
+                                                <img src="@User." alt="Image placeholder">
+                                            </div>
+                                            <div class="cold-md-12">
+                                                <h3>@attach.UserId</h3>
+                                                <div class="meta">@attach.Created.ToString("MMM dd, yyyy hh:mm:ss tt")</div>
+                                                <p>@attach.CommentBody</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("TicketId", Model.Id)
+
+                                    <div class="form-group">
+                                        <label for="message">Message</label>
+                                        @Html.TextArea("CommentBody", new { @class = "form-control", rows = 5 })
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>*@
-<!-- #endregion -->
+        </div>*@
+    <!-- #endregion -->

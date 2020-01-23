@@ -87,34 +87,34 @@
             @Html.ActionLink("Back to List", "Index")
         </div>*@
     </div>
-    <div class="col-md-6">
-            <table class="table table-striped table-bordered">
-                <thead>
+    <div class="col-md-6 table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayName("Projects")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
                     <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayName("Projects")
-                        </th>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @foreach (var name in item.ProjectNames)
+                            {
+                                @name<br />
+                            }
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @foreach (var name in item.ProjectNames)
-                                {
-                                    @name<br />
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
